@@ -1,0 +1,1 @@
+sudo $HOME/UERANSIM/build/nr-cli $1 -e "deregister switch-off" 
