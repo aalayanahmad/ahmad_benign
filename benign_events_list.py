@@ -1,5 +1,8 @@
 from file_handling import *
-from constants import NUMBER_OF_UES_PER_SLICE
+from constants import NUMBER_OF_UES_PER_SLICE, INTERVAL_TIME, SERVICE_TIME
+from numpy import random
+import math
+from time_for_event_execution import *
 
 def benign_events_list():
     
@@ -31,70 +34,57 @@ def benign_events_list():
     
     #deleteonefile('/home/ubuntu/UERANSIM/script/files/normal_scenario_event.txt')
     #deletefiles('/home/ubuntu/UERANSIM/config/') ASK
-    creating_ue_file_names(NUMBER_OF_UES_PER_SLICE,1,2,1)# creating yaml files
-    creating_ue_file_names(NUMBER_OF_UES_PER_SLICE,2,3,2)
-    yamlfiles(NUMBER_OF_UES_PER_SLICE,3,4,3)
-    yamlfiles(NUMBER_OF_UES_PER_SLICE,4,5,4)
- 
- ueState=dict()#it help to manage the different ue'states through the programm
- uelist=[]#to create the ue pool
- ueselected=[]#to control the number of ues that has been selected.
- list_to_execute=[]
- tempUeList=[]
- toDeleteueState=[]
- 
-
- 
- list_of_lambda= [1,3,5,7,8,6,4,2] #[2,4,6,8,10,8,6,4] #[10,25,35,20]#10,20,30,15#[2,4,5,7,9,7,6,4]-[2,4,6,8,10,8,6,4]#[1,2,3,4,5,4,3,2]
- slottime=0.0
- for lambd in list_of_lambda:
-  contador=1
-  
- 
-  if lambd>1:
-   tempUeList=[ueTemp for ueTemp in ueselected if ueState[ueTemp+"_D"]>=slottime]
-   ueselected.clear()
-   ueselected=tempUeList.copy()
-   print("ueselected list:")
-   print(ueselected)
-   
-
-
-
-  print ("******************************************")
-  print(uelist)
-  print ("******************************************")
-
-
-  ue_number=lambd*intervalTime
-  uelist=ues_list(10,ueperslice)
-  
-  print(ue_number)
-  print ("******************************************")
-
-  
-  while contador<=ue_number:
-   selectedue = random.choice(uelist)
- 
-   if selectedue in ueselected: #checking that ues are not repeated
-    continue
-   else: 
-    ueselected.append(selectedue)
-    ueState[selectedue+"_A"]=-(1/lambd)*math.log(random.rand())+slottime #-(1/lambd)*math.log(random.rand())+slottime
-    ueState[selectedue+"_D"]=ueState[selectedue+"_A"]+serviceTime() #(-(10)*math.log(random.rand()))   
-    listevent(selectedue,ueState[selectedue+"_A"],ueState[selectedue+"_D"],iss,register,uplink,downlink,PDU_sRelease,idle,pisss,pregister,puplink,  pdownlink,pPDU_sRelease,pidle,list_to_execute,lambd,contador)#sending the ue's state, and configuration accordingly to first scenarios(it is done for the 3 attack and normal behavior)
-    contador+=1 #counting number of selected UEs
-  slottime+=intervalTime 
-  print("contador:"+str(contador))
-  
- list_to_execute.sort(key=takefourth)
-
- with open('/home/ubuntu/UERANSIM/script/files/BeningList_attack1.txt', 'w') as file:
-   for line in list_to_execute:
-    file.write(','.join(str(item) for item in line))
-    file.write("\n" )
-
- for i in list_to_execute:
-  print(i)
+    # creating_ue_file_names(NUMBER_OF_UES_PER_SLICE,1,2,1)# creating yaml files #ASK
+    # creating_ue_file_names(NUMBER_OF_UES_PER_SLICE,2,3,2)
+    yamlfiles(NUMBER_OF_UES_PER_SLICE, 1, 2, 1) #create UEs of slice 1
+    yamlfiles(NUMBER_OF_UES_PER_SLICE, 2, 3, 2) #create UEs of slice 2
     
- return list_to_execute
+    ue_state = dict() #to manage the different ue states throughout the programm
+    ues_list = [] #to create the ue pool 
+    ue_selected = [] #to control the number of ues that has been selected.
+    list_to_execute = []
+    temp_ue_list = []
+    to_DeleteueState = []
+    
+    list_of_lambdas= [1,3,5,7,8,6,4,2] #ASK #[2,4,6,8,10,8,6,4] #[10,25,35,20]#10,20,30,15#[2,4,5,7,9,7,6,4]-[2,4,6,8,10,8,6,4]#[1,2,3,4,5,4,3,2]
+    slot_time=0.0
+
+    for lambda_value in list_of_lambdas:
+      ues_number_for_this_lambda = lambda_value * INTERVAL_TIME
+      counter = 1
+      if (lambda_value > 1):
+        temp_ue_list = [ue_temp for ue_temp in ue_selected if ue_state[ue_temp + "_D"] >= slot_time] #deregister? ASK
+        ue_selected.clear()
+        ueselected = temp_ue_list.copy()
+        print("ueselected list:")
+        print(ueselected)
+        print ("******************************************")
+        print(ues_list)
+        print ("******************************************")
+        ues_list = ues_list(0, NUMBER_OF_UES_PER_SLICE) #cause we need all of them
+        print(ues_number_for_this_lambda)
+        print ("******************************************")
+        while counter <= ues_number_for_this_lambda:
+          selected_ue = random.choice(ues_list)
+          if selected_ue in ue_selected: #checking that ues are not repeated
+            continue
+          else: 
+            ue_selected.append(selected_ue)
+            ue_state[selected_ue + "_A"] = - (1/lambda_value) * math.log(random.rand()) + slot_time #-(1/lambd)*math.log(random.rand())+slottime
+            ue_state[selected_ue + "_D"] = ue_state[selected_ue + "_A"] + service_time() #(-(10)*math.log(random.rand()))   
+            list_event(selected_ue,ue_state[selected_ue + "_A"], ue_state[selected_ue + "_D"],iss,register,uplink,downlink,PDU_sRelease,idle,pisss,pregister,puplink,  pdownlink,pPDU_sRelease,pidle,list_to_execute,lambd,contador)#sending the ue's state, and configuration accordingly to first scenarios(it is done for the 3 attack and normal behavior)
+            contador+=1 #counting number of selected UEs
+        slot_time += INTERVAL_TIME 
+        print("counter: " + str(counter))
+
+        list_to_execute.sort(key=takefourth)
+
+        with open('/home/ubuntu/UERANSIM/script/files/BeningList_attack1.txt', 'w') as file:
+          for line in list_to_execute:
+          file.write(','.join(str(item) for item in line))
+          file.write("\n" )
+
+        for i in list_to_execute:
+        print(i)
+          
+        return list_to_execute

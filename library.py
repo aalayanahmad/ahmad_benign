@@ -88,13 +88,7 @@ def takefourth(elem):
     #return elem[3]
     return elem[2]
 #********************************************************************************************
-def serviceTime():
- while True:
-  x=-(servicetime)*math.log(random.rand())#10---------------3 for test with 5 minute long---------------------
-  if x>=2 and x<=intervalTime:  #x>8
-    break
- return x
-# return (-(10)*math.log(random.rand()))
+
 
 #********************************************************************************************  
 # def non_compromised_ues_events(attaknumber):

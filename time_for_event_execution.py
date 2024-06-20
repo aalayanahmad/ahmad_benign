@@ -1,4 +1,6 @@
-from constants import PROCESSING_TIME_PER_EVENT
+from constants import PROCESSING_TIME_PER_EVENT, SERVICE_TIME, INTERVAL_TIME
+import math
+from numpy import random
 
 def time_execution_current_event(current_event):
   if current_event==1:#ISS
@@ -15,3 +17,10 @@ def time_execution_current_event(current_event):
    return PROCESSING_TIME_PER_EVENT["idle"]
   else: #deregistration 
    return PROCESSING_TIME_PER_EVENT["deregister"]
+
+def service_time():
+ while True:
+  x = -(SERVICE_TIME) * math.log(random.rand()) #10---------------3 for test with 5 minute long---------------------
+  if x >= 2 and x <= INTERVAL_TIME: #x>8
+    break
+ return x
