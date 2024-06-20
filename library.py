@@ -42,44 +42,6 @@ def ues_list(start, end):
 
 
 #********************************************************************************************
-def listevent(selectedue,init,end,iss,register,uplink,downlink,PDU_sRelease,idle,pisss,pregister,puplink,pdownlink,pPDU_sRelease,pidle,arr,lambdaV,i):
-
- print(str(i)+")"+selectedue+" init:"+str(init)+"("+str(init*60)+")"+" end:"+str(end)+"("+str(end*60)+")"+" lda:"+str(lambdaV))
- end_to_seconds=end*60 #pasing minutes to seconds
- #arr.append([selectedue,0,2,init*60,lambdaV,init,0]) #0=deregister,2=register
- arr.append([int(selectedue[2:5]),2,init*60,lambdaV]) #0=deregister,2=register
-
- currentstate=2
- time=(init*60)#time to control the while structure in seconds
- 
- c=0
- while (time<=(end_to_seconds-10)): #(processtime["iss"]+5)
-  
-  event_to_trigger=randomeventselection(currentstate,iss,register,uplink,downlink,PDU_sRelease,idle,pisss,pregister,puplink,pdownlink,pPDU_sRelease,pidle)#sending the ue's state, and configuration accordingly to first scenarios(it is done for the 3 attack and normal behavior)
-  current_event= currentstate
-  #poisson=(-(1/(lambdaV+0.1))*math.log(random.rand()))*60 #------------------(-(1/(events_per_minute))*math.log(random.rand()))*60
-  poisson=(-(1/(events_per_minute))*math.log(random.rand()))*60 #------------------(-(1/(events_per_minute))*math.log(random.rand()))*60
-  if math.floor(poisson)<time_execution_current_event(currentstate):
-   p=time+time_execution_current_event(currentstate)
-  else:
-   p=time+poisson 
-  
-  
-  if (p)<=(end_to_seconds-10):#(processtime["iss"]+5)
-   time=p #(poisson+time_execution_current_event(current_event))---------------------
-   #arr.append([selectedue,current_event,event_to_trigger,time,lambdaV,poisson,lambdaV+1])
-   arr.append([int(selectedue[2:5]),event_to_trigger,time,lambdaV])
-   currentstate= event_to_trigger
-  else:
-   c+=1
-  
-  if c==3:
-   break
- #arr.append([selectedue,currentstate,0,end*60,lambdaV,end,0])   
- arr.append([int(selectedue[2:5]),0,end*60,lambdaV])
-  
- return arr
-#********************************************************************************************
 def listevent_Recent(selectedue,init,end,iss,register,uplink,downlink,PDU_sRelease,idle,pisss,pregister,puplink,pdownlink,pPDU_sRelease,pidle,arr,lambdaV,i):
  arr.append([int(selectedue[2:5]),2,init*1,lambdaV]) 
  return arr

@@ -81,10 +81,10 @@ def benign_events_list():
 
         with open('/home/ubuntu/UERANSIM/script/files/BeningList_attack1.txt', 'w') as file:
           for line in list_to_execute:
-          file.write(','.join(str(item) for item in line))
-          file.write("\n" )
+            file.write(','.join(str(item) for item in line))
+            file.write("\n" )
 
         for i in list_to_execute:
-        print(i)
+          print(i)
           
         return list_to_execute
