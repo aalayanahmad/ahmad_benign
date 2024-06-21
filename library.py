@@ -45,10 +45,7 @@ def ues_list(start, end):
 def listevent_Recent(selectedue,init,end,iss,register,uplink,downlink,PDU_sRelease,idle,pisss,pregister,puplink,pdownlink,pPDU_sRelease,pidle,arr,lambdaV,i):
  arr.append([int(selectedue[2:5]),2,init*1,lambdaV]) 
  return arr
-#********************************************************************************************
-def takefourth(elem):
-    #return elem[3]
-    return elem[2]
+
 #********************************************************************************************
 
 
@@ -138,19 +135,6 @@ def takefourth(elem):
 
 
 
-#********************************************************************************************  
-def ueID():
- deletefiles('/home/ubuntu/UERANSIM/script/commandoutput/') #dete txt file with ps-list information
- os.system('$HOME/UERANSIM/build/nr-cli UERANSIM-gnb-208-93-1 -e ue-list   >> $HOME/UERANSIM/script/commandoutput/ueID.txt')
- 
- filetxt= '/home/ubuntu/UERANSIM/script/commandoutput/ueID.txt' 
- with open (filetxt) as f:
-  for line in f:
-   l=line.strip()
-   ueid= l[8:].strip()
-   break
-   
- return ueid
 #********************************************************************************************
 def idle(id,t):
  print ("id issssssssssssssssss-----:", id)

@@ -17,15 +17,15 @@ def creating_ue_file_names(slice_number, ue_number):
 
 
 def yamlfiles(total_number_of_ues, start, end, flag):
-   lines = [] #list to store file lines
+   lines = [] 
    
    if (flag == 1):
-      file_path = '/home/ubuntu/UERANSIM/script/ue.yaml'
-   elif flag==2:
+      file_path = '/home/ubuntu/UERANSIM/script/ue.yaml' #ASK
+   elif (flag == 2):
       file_path = '/home/ubuntu/UERANSIM/script/ue2.yaml'
    
    with open(file_path) as fp:
-      # read an store all lines into list
+      # read an store all the lines in a list
       lines = fp.readlines()
 
    for slice_number_x in range(start, end): #runs for as many slices we have
@@ -33,10 +33,14 @@ def yamlfiles(total_number_of_ues, start, end, flag):
          filename = creating_ue_file_names(slice_number_x, ue_number_i)
          imsi = lines[1].strip() #create the imsi according to the network slice
          new_imsi = imsi[:-4] + filename[2:5]+ "'"
-         lines[1]= new_imsi + "\n"
-         
+         lines[1] = new_imsi + "\n"
          path = '/home/ubuntu/free5gc-compose/config/'+ filename
-  #write file
+
+         #write file
          with open(path, 'w') as fp:
             for number, line in enumerate(lines):
                fp.write(line)
+
+def takefourth(elem):
+    #return elem[3]
+    return elem[2]
