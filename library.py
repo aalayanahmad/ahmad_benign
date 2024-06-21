@@ -36,7 +36,7 @@ def ues_list(start, end):
  arr=[]
  for slice_number in range(1,5): #for slice_number in range(1,5):
   for ue_number in range (start, end):
-   ue_name = creating_ue_file_names(slice_number,ue_number)
+   ue_name = creating_ue_yaml_file_names(slice_number,ue_number)
    arr.append(ue_name)
   return arr   
 
