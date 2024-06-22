@@ -4,16 +4,8 @@ from time_for_event_execution import time_execution_current_event
 import math
 import random
 
-def list_event(selected_ue, start, end,
-              register, uplink_any, uplink_service1, uplink_service2, 
-              uplink_service1_with_network_issues, uplink_service2_with_network_issues, 
-              downlink, pdu_ue_release, pdu_gnb_release, idle, 
-              probability_register, probability_uplink_any, probability_uplink_service1, 
-              probability_uplink_service2, probability_uplink_service1_with_network_issues, 
-              probability_uplink_service2_with_network_issues, probability_downlink, 
-              probability_pdu_ue_release, probability_pdu_gnb_release, probability_idle,
-              arr, lambda_value, i):
-
+def list_event(selected_ue, start, end, legal_next_events_per_current_event, probabilities_of_legal_next_events_per_current_event_benign, arr, lambda_value, i):
+    
     print(f"{i}) {selected_ue} init: {start} ({start * 60}) end: {end} ({end * 60}) lambda: {lambda_value}")
 
     end_in_seconds = end * 60  # convert minutes to seconds
@@ -25,14 +17,7 @@ def list_event(selected_ue, start, end,
 
     while time <= (end_in_seconds - 10):  # 10 seconds guard time
         # Select the next event based on current state
-        event_to_trigger = random_event_selection(current_state, register, uplink_any, uplink_service1, 
-                                                  uplink_service2, uplink_service1_with_network_issues, 
-                                                  uplink_service2_with_network_issues, downlink, pdu_ue_release, 
-                                                  pdu_gnb_release, idle, probability_register, probability_uplink_any, 
-                                                  probability_uplink_service1, probability_uplink_service2, 
-                                                  probability_uplink_service1_with_network_issues, 
-                                                  probability_uplink_service2_with_network_issues, probability_downlink, 
-                                                  probability_pdu_ue_release, probability_pdu_gnb_release, probability_idle)
+        event_to_trigger = random_event_selection(current_state, legal_next_events_per_current_event, probabilities_of_legal_next_events_per_current_event_benign)
         
         current_event = current_state
 
