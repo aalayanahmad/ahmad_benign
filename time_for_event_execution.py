@@ -17,10 +17,10 @@ def time_execution_current_event(current_event):
    return PROCESSING_TIME_PER_EVENT["uplink_service2"]
   
   elif current_event == 5:
-   return PROCESSING_TIME_PER_EVENT["uplink_service1_with_network_issues"]
+   return PROCESSING_TIME_PER_EVENT["uplink_service1_delayed"]
   
   elif current_event == 6:
-   return PROCESSING_TIME_PER_EVENT["uplink_servicew_with_network_issues"]
+   return PROCESSING_TIME_PER_EVENT["uplink_service2_delayed"]
   
   elif current_event == 7:
    return PROCESSING_TIME_PER_EVENT["downlink"]
@@ -42,6 +42,6 @@ def time_execution_current_event(current_event):
 def service_time():
  while True:
   x = -(SERVICE_TIME) * math.log(random.rand()) #10---------------3 for test with 5 minute long--------------------- ASK
-  if x >= 2 and x <= INTERVAL_TIME: #x>8 #ASK
+  if x >= 2 and x <= INTERVAL_TIME: 
     break
  return x

@@ -47,14 +47,6 @@ elif [ "$subn" = "1" ]
 then
  echo "1111111111111111111111"
  ping -c 1 -I 10.61.0.1 $ip 
-elif [ "$subn" = "2" ]
-then
- echo "222222222222222"
- ping -c 1 -I 10.62.0.1 $ip 
-elif [ "$subn" = "3" ]
-then
- echo "3333333333333"
- ping -c 1 -I 10.63.0.1 $ip
 fi 
 fi
 

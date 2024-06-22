@@ -1,7 +1,7 @@
 import os
 from numpy import random
 import math
-from file_handling import *
+from ue_yaml_file_handling import *
 from random_event_selection import *
 from time_for_event_execution import *
 import time
@@ -31,15 +31,6 @@ import time
 #   IdCount["counter"]+=1
 #   ueSessionId[selectedue]=IdCount["counter"]#ueID()   
 #   print ("FROM SWITCHING, UESESSIONID:"+selectedue+"-----"+str(ueSessionId[selectedue])) 
-
-def ues_list(start, end):
- arr=[]
- for slice_number in range(1,5): #for slice_number in range(1,5):
-  for ue_number in range (start, end):
-   ue_name = creating_ue_yaml_file_names(slice_number,ue_number)
-   arr.append(ue_name)
-  return arr   
-
 
 #********************************************************************************************
 def listevent_Recent(selectedue,init,end,iss,register,uplink,downlink,PDU_sRelease,idle,pisss,pregister,puplink,pdownlink,pPDU_sRelease,pidle,arr,lambdaV,i):

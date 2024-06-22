@@ -4,48 +4,51 @@ import subprocess
 from multiprocessing import Process
 
 imsi = 'imsi-208930000000' 
-ci = 0
 cr = 0
-cu = 0
-cdw = 0
-cp = 0
-cid = 0
+cua = 0
+cus1 = 0
+cus2 = 0
+cus1d = 0
+cus2d = 0
+cd = 0
+cpu = 0
+cpg = 0
+ci = 0
 cd = 0  
-t = 0 #1800,2700
-tr=1
 
-myUeslist = []
-with open("/home/ubuntu/UERANSIM/script/files/normal_slot5.txt", "r") as file:
+t = 0 #1800,2700
+tr = 1
+ 
+ue_list = []
+with open("/home/ubuntu/UERANSIM/script/files/normal_slot1.txt", "r") as file:
     lines = file.readlines()
     for line in lines:
         x = line.strip().split(",", 4)
-        myUeslist.append(x)
+        ue_list.append(x)
 
-#for i in myUeslist:
-# print (i)
 
 def run_command(command):
-    subprocess.run(command)#,stdout=subprocess.DEVNULL
+    subprocess.run(command)
 
 
 while t <= 7230: #2700,3600
     t_plus2 = t + 2
     print("-------------time;", str(t), "---------->+2 seconds:", str(t + 2) + "-------------")
-    UEevents = [ue for ue in myUeslist if t <= math.floor(float(ue[2])) < t_plus2]
+    UEevents = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus2]
     processes = []
 
     for ue in UEevents:
         print(ue)
         if int(ue[1]) == 1:
          try:
-            ci += 1
-            print("ISSSSSSSSSSSSSSSSSS")
+            cr += 1
+            print("registration")
             tr += 1
             filename="ue"+ue[0]+".txt"
             file = open(filename, "w")
-            #Write content to the file
+            
             imsivalue=imsi+ue[0]
-            print("VALUE OF CR(ISS):"+str(tr))
+            print("VALUE OF CR(registration):"+str(tr))
             file.write(imsivalue+ "," +str(tr)+ "\n")
             #Close the file
             file.close()
