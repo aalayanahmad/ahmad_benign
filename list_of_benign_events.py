@@ -3,7 +3,7 @@ from constants import *
 from numpy import random
 import math
 from time_for_event_execution import *
-from list_event import *
+from list_of_events_per_ue import *
 
 def benign_events_list():
 
@@ -22,43 +22,36 @@ def benign_events_list():
       number_of_ues_for_this_lambda = lambda_value * INTERVAL_TIME
       counter = 1
       if (lambda_value > 1):
-        temp_ue_list = [ue_temp for ue_temp in ue_selected if ue_state[ue_temp + "_D"] >= slot_time] #deregister? ASK
+        temp_ue_list = [ue_temp for ue_temp in ue_selected if ue_state[ue_temp + "_D"] >= slot_time] #ASK
         ue_selected.clear()
         ue_selected = temp_ue_list.copy()
         ues_list = combined_ue_pool(0, NUMBER_OF_UES_PER_SLICE) #cause we need all of them in the benign attack
         while counter <= number_of_ues_for_this_lambda:
           selected_ue = random.choice(ues_list)
-          if selected_ue in ue_selected: #checking that ues are not repeated
+          if selected_ue in ue_selected: #ensuring ues are not repeated
             continue
           else: 
             ue_selected.append(selected_ue)
             ue_state[selected_ue + "_A"] = - (1/lambda_value) * math.log(random.rand()) + slot_time 
             ue_state[selected_ue + "_D"] = ue_state[selected_ue + "_A"] + service_time()    
             
-            list_event(selected_ue, ue_state[selected_ue + "_A"], ue_state[selected_ue + "_D"],
-                       REGISTER, UPLINK_ANY, UPLINK_SERVICE1, UPLINK_SERVICE2, UPLINK_SERVICE1_DELAYED, 
-                       UPLINK_SERVICE2_DELAYED, DOWNLINK, PDU_UE_RELEASE, PDU_GNB_RELEASE, IDLE, 
-                       PB_REGISTER, PB_UPLINK_ANY, PB_UPLINK_SERVICE1, PB_UPLINK_SERVICE2,
-                       PB_UPLINK_SERVICE1_DELAYED, PB_UPLINK_SERVICE2_DELAYED, 
-                       PB_DOWNLINK, PB_PDU_UE_RELEASE, PB_PDU_GNB_RELEASE, PB_IDLE,
-                       list_to_execute,lambda_value, counter) #sending the ue's state, and configuration accordingly to first scenarios(it is done for the 3 attack and normal behavior)
+            list_of_events_per_ue(selected_ue, ue_state[selected_ue + "_A"], ue_state[selected_ue + "_D"],
+                       LEGAL_NEXT_EVENTS_PER_CURRENT_EVENT, PRBABILITIES_OF_LEGAL_NEXT_EVENTS_PER_CURRENT_EVENT_BENIGN,
+                       list_to_execute, lambda_value, counter)
             counter+=1 #counting number of selected UEs
-            slot_time += INTERVAL_TIME 
+        slot_time += INTERVAL_TIME 
 
-        list_to_execute.sort(key = takefourth)
+    list_to_execute.sort(key = takefourth)
 
-        with open('/home/ubuntu/UERANSIM/script/files/BeningList_attack1.txt', 'w') as file:
-          for line in list_to_execute:
-            file.write(','.join(str(item) for item in line))
-            file.write("\n" )
-
-        for i in list_to_execute:
-          print(i)
+    with open('/home/ubuntu/free5gc-compose/benign/benign_list.txt', 'w') as file:
+        for line in list_to_execute:
+          file.write(','.join(str(item) for item in line))
+          file.write("\n" )
           
-        return list_to_execute
+    return list_to_execute
       
 
-#this function combines all UEs from all slices in the network into the ue_list! 
+#this function combines all UEs from all slices in the network into ue_list 
 def combined_ue_pool(start, end): 
  ues_list = []
  for slice_number in range(1,3): #slice1 and slice2

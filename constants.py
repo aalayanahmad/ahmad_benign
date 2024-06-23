@@ -1,8 +1,8 @@
-NUMBER_OF_UES_PER_SLICE = 150 # i have two slices, and i want 150 ues per slice
+NUMBER_OF_UES_PER_SLICE = 150 
 
-INTERVAL_TIME = 15.0 # in minutes
+INTERVAL_TIME = 900.0 # in seconds => 15 minutes
 
-SERVICE_TIME = 15 # the maximum amount of time a UE can spend in the network per time slot
+SERVICE_TIME = 20 # the maximum amount of time a UE can spend in the network per time slot in 
 
 EVENTS_PER_MINUTE = 15 # how many events can happen per minute (per ue or across ues?) ASK
 
