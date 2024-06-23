@@ -19,7 +19,7 @@ trap 'handle_error' ERR
 
 
 UEs="ues_to_use_service1.txt"
-sudo $HOME/UERANSIM/build/nr-cli -d > $UEs
+cd free5gc-compose && sudo docker exec -it --privileged ueransim /bin/bash -c "./nr-cli -d > $UEs"
 pattern="$1"
 count=$(grep -c "$pattern" "$UEs")
 echo "count: $count"
@@ -28,8 +28,7 @@ if [ "$count" -ge 1 ]; then
 
 #sleep 1
 filetxt="$1.txt"
-/home/ubuntu/UERANSIM/build/nr-cli $1 --exec "ps-list" > $filetxt
-#sudo $HOME/UERANSIM/build/nr-cli $1 --exec "ps-list" > $filetxt
+./nr-cli $1 --exec "ps-list" > $filetxt
 str=$(grep "address: " $filetxt)
 find="address: "
 replace=""

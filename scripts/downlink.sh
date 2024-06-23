@@ -18,9 +18,9 @@ handle_error() {
 trap 'handle_error' ERR
 
 
-ues="ues_downlink.txt"
+ues = "ues_downlink.txt"
+cd free5gc-compose && sudo docker exec -it --privileged ueransim /bin/bash -c "./nr-cli -d > $UEs"
 
-sudo $HOME/UERANSIM/build/nr-cli -d > $UEs
 pattern="$1"
 count=$(grep -c "$pattern" "$UEs")
 echo "Count: $count"
@@ -29,7 +29,7 @@ if [ "$count" -ge 1 ]; then
 
 #sleep 1
 filetxt="$1.txt"
-sudo $HOME/UERANSIM/build/nr-cli $1 --exec "ps-list" > $filetxt
+./nr-cli $1 --exec "ps-list" > $filetxt
 str=$(grep "address: " $filetxt)
 find="address: "
 replace=""

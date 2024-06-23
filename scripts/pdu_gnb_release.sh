@@ -17,7 +17,7 @@ trap 'handle_error' ERR
 
 
 UEs="fileuesGnbrelease.txt"
-sudo $HOME/UERANSIM/build/nr-cli -d > $UEs
+cd free5gc-compose && sudo docker exec -it --privileged ueransim /bin/bash -c "./nr-cli -d > $UEs"
 pattern="$1"
 count=$(grep -c "$pattern" "$UEs")
 echo "Count: $count"
@@ -31,7 +31,7 @@ ueid="${oldtxt:21}"
 echo "-------------ueid-------------"$ueid
 
 if [ -n "$ueid" ]; then
- sudo $HOME/UERANSIM/build/nr-cli UERANSIM-gnb-208-93-1 -e "ue-release $ueid" 
+cd free5gc-compose && sudo docker exec -it --privileged ueransim /bin/bash -c "/nr-cli UERANSIM-gnb-208-93-1 -e "ue-release $ueid"
 fi
 
 fi

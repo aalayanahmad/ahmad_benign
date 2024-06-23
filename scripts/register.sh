@@ -1,4 +1,4 @@
-sudo $HOME/UERANSIM/build/nr-ue -c $HOME/UERANSIM/config/ue$1.yaml -n 1  & sleep 2
+cd free5gc-compose && sudo docker exec -it --privileged ueransim /bin/bash -c "./nr-ue -c config/ue$1.yaml -n 1  & sleep 2"
 #textfile="ueidlist.txt"
 #$HOME/UERANSIM/build/nr-cli UERANSIM-gnb-208-93-1 -e ue-list > $textfile
 #val=$(head -n 1 $textfile)

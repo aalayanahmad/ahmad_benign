@@ -31,7 +31,7 @@ def run_command(command):
     subprocess.run(command)
 
 
-while t <= 7230: #2700,3600
+while t <= 7230: 
     t_plus2 = t + 2
     print("-------------time;", str(t), "---------->+2 seconds:", str(t + 2) + "-------------")
     ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus2]
