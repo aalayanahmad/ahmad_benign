@@ -1,11 +1,20 @@
-#echo "UPlink"
+#!/bin/bash
 
-#trimmed_value=$(echo "$1" | tr -d ' ')
-#UEs="fileuesupl.txt"
-#sudo $HOME/UERANSIM/build/nr-cli -d > $UEs
-#if grep -q $trimmed_value $UEs; then
-# echo "uplionk Value found! Performing action..."
+handle_error() {
+  local error_code=$?
+  echo "Error occurred in uplink_service2_delayed with exit code: $error_code"
+  # Additional error handling code or exit the script
+  exit $error_code
+}
 
+# Set the error handler function to be called on any error
+trap 'handle_error' ERR
+
+UEs="ues_to_use_service1.txt"
+./nr-cli -d > "$UEs"
+pattern="$1"
+count=$(grep -c "$pattern" "$UEs")
+#!/bin/bash
 
 handle_error() {
   local error_code=$?
@@ -17,29 +26,22 @@ handle_error() {
 # Set the error handler function to be called on any error
 trap 'handle_error' ERR
 
-
-UEs="ues_to_use_service1.txt"
-cd free5gc-compose && sudo docker exec -it --privileged ueransim /bin/bash -c "./nr-cli -d > $UEs"
+UEs="ues_to_use_service2_delayed.txt"
+./nr-cli -d > "$UEs"
 pattern="$1"
 count=$(grep -c "$pattern" "$UEs")
-echo "count: $count"
+echo "I am in uplink_service2_delayed and there are currently: $count ues"
 
 if [ "$count" -ge 1 ]; then
-
-#sleep 1
-filetxt="$1.txt"
-./nr-cli $1 --exec "ps-list" > $filetxt
-str=$(grep "address: " $filetxt)
-find="address: "
-replace=""
-ip=${str//$find/$replace} 
-echo "***delayed_service2_uplink***> $ip"
-if [ -n "$ip" ]; then
- python3 client2_delayed.py $ip 2
+  filetxt="$1.txt"
+  ./nr-cli $1 --exec 'ps-list' > "$filetxt"
+  str=$(grep "address: " "$filetxt")
+  find="address: "
+  replace=""
+  ip=${str//$find/$replace}
+  echo "delayed_service2_uplink $ip"
+  if [ -n "$ip" ]; then
+    python3 delayedClient2.py $ip 2
+  fi
 fi
-
-
-fi
-#rm $filetxt
-
-
+#rm "$filetxt"

@@ -1,37 +1,29 @@
-##filetxt="$HOME/UERANSIM/script/ueID.txt"
-#filetxt="$HOME/UERANSIM/script/ue$2.txt"
-#tt=$1
-#str=$(grep $tt $filetxt | tail -1)
-#ueid="${str:21}"
+#!/bin/bash
 
-#Ihave to change ue$1 for ue$2 if I uncomment the previous code and add the imsi in the normal.py
 handle_error() {
   local error_code=$?
-  echo "Error occurred with exit code: $error_code"
-  # Additional error handling code or exit the script
+  echo "Error occurred in pdu_gnb_release with exit code: $error_code"
   exit $error_code
 }
 
 # Set the error handler function to be called on any error
 trap 'handle_error' ERR
 
-
-UEs="fileuesGnbrelease.txt"
-cd free5gc-compose && sudo docker exec -it --privileged ueransim /bin/bash -c "./nr-cli -d > $UEs"
+UEs="pdu_gnb_release.txt"
+./nr-cli -d > "$UEs"
 pattern="$1"
 count=$(grep -c "$pattern" "$UEs")
-echo "Count: $count"
+echo "I am in pdu_ugnb_release and there are currently: $count ues"
 
 if [ "$count" -ge 1 ]; then
+  echo "second parameter $2"
+  oldtxt=$(sed -n '1p' "/ueransim/ue$2.txt")
+  ueid="${oldtxt:21}"
+  #ueid=$(echo "$oldtxt" | cut -d',' -f2)
+  
+  echo "ueid: $ueid"
 
-
-echo "second parameter $2"
-oldtxt=$(sed -n '1p' $HOME/UERANSIM/script/test/ue$2.txt)
-ueid="${oldtxt:21}"
-echo "-------------ueid-------------"$ueid
-
-if [ -n "$ueid" ]; then
-cd free5gc-compose && sudo docker exec -it --privileged ueransim /bin/bash -c "/nr-cli UERANSIM-gnb-208-93-1 -e "ue-release $ueid"
-fi
-
+  if [ -n "$ueid" ]; then
+    ./nr-cli UERANSIM-gnb-208-93-1 -e "ue-release $ueid"
+  fi
 fi

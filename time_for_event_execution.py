@@ -9,7 +9,7 @@ def time_execution_current_event(current_event):
 
 def service_time():
  while True:
-  x = -(SERVICE_TIME) * math.log(random.rand()) #ASK
+  x = -(SERVICE_TIME) * math.log(random.random())
   if (x >= 2 and x <= INTERVAL_TIME): 
     break
  return x

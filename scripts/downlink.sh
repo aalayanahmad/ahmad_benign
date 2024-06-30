@@ -1,55 +1,49 @@
-#echo "Downlink"
-
-#trimmed_value=$(echo "$1" | tr -d ' ')
-#UEs="fileuesdown.txt"
-#sudo $HOME/UERANSIM/build/nr-cli -d > $UEs
-#if grep -q $trimmed_value $UEs; then
-# echo "Donwlionk Value found! Performing action..."
-
+#!/bin/bash
 
 handle_error() {
-  local error_code=$?
-  echo "Error occurred with exit code: $error_code"
-  # Additional error handling code or exit the script
-  exit $error_code
+    local error_code=$?
+    echo "Error occurred in downlink with exit code: $error_code"
+    exit $error_code
 }
 
-# Set the error handler function to be called on any error
 trap 'handle_error' ERR
 
+trimmed_value=$(echo "$1" | tr -d ' ')
+echo "downlink $1"
+UEs="ues_performing_downlink.txt"
+./nr-cli -d > "$UEs"
+if grep -q "$trimmed_value" "$UEs"; then
+    echo "downlink value found! performing action..."
+fi
 
-ues = "ues_downlink.txt"
-cd free5gc-compose && sudo docker exec -it --privileged ueransim /bin/bash -c "./nr-cli -d > $UEs"
+
+ue="ues_downlink.txt"
+cp "$UEs" "$ue"
 
 pattern="$1"
-count=$(grep -c "$pattern" "$UEs")
-echo "Count: $count"
+count=$(grep -c "$pattern" "$ue")
+echo "I am in downlink and there are currently: $count ues"
 
 if [ "$count" -ge 1 ]; then
-
-#sleep 1
-filetxt="$1.txt"
-./nr-cli $1 --exec "ps-list" > $filetxt
-str=$(grep "address: " $filetxt)
-find="address: "
-replace=""
-ip=${str//$find/$replace} 
-echo "ip address:::::::----->"$ip
-subn=${ip:5:1}
-echo "***subnnnnnnnnnnnnnnnnnn*** downlink:$subn"
-
-if [ -n "$ip" ]; then
-if [ "$subn" = "0" ]
-then
- echo "0000000000"
- ping -c 1 -I 10.60.0.1 $ip 
-elif [ "$subn" = "1" ]
-then
- echo "1111111111111111111111"
- ping -c 1 -I 10.61.0.1 $ip 
-fi 
+    filetxt="$1.txt"
+    echo "in if"
+    ./nr-cli $1 --exec 'ps-list' > "$filetxt"
+    str=$(grep "address: " "$filetxt")
+    find="address: "
+    replace=""
+    ip="${str//$find/$replace}"
+    echo "downlink for ip: $ip"
+    subn="${ip:5:1}"
+    if [ -n "$ip" ]; then
+        if [ "$subn" = "0" ]; then
+            echo "from slice 1"
+            ping -I $ip  -c 4 10.60.0.1
+        elif [ "$subn" = "1" ]; then
+            echo "from slice 2"
+            ping -I $ip -c 4 10.61.0.1
+        fi
+    fi
 fi
 
-
-fi
-#rm $filetxt
+# Clean up temporary files
+# rm -f "$filetxt"
