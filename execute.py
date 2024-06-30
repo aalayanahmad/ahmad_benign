@@ -10,7 +10,7 @@ t = 0  # Start time
 tr = 1  # Transaction ID
 
 ue_list = []
-with open("/home/ubuntu/free5gc-compose/ahmad_benign/benign_events", "r") as file:
+with open("'/ueransim/benign_events", "r") as file:
     lines = file.readlines()
     for line in lines:
         x = line.strip().split(",", 4)
@@ -38,70 +38,70 @@ def process_ue_event(ue, tr):
             tr += 1
             with open(file_name, "w") as file:
                 file.write(f"{imsi_value},{tr}\n")
-            run_command(['bash', '/home/ubuntu/free5gc-compose/ahmad_benign/scripts/register.sh', file_name])
+            run_command(['bash', '/ueransim/register.sh', file_name])
         elif event_type == "2":
             cua += 1
             print("uplink_any")
             tr += 1
             with open(file_name, "w") as file:
                 file.write(f"{imsi_value},{tr}\n")
-            run_command(['bash', '/home/ubuntu/free5gc-compose/ahmad_benign/scripts/uplink_any.sh', imsi_value])
+            run_command(['bash', '/ueransim/uplink_any.sh', imsi_value])
         elif event_type == "3":
             cus1 += 1
             print("uplink_service1")
             tr += 1
             with open(file_name, "w") as file:
                 file.write(f"{imsi_value},{tr}\n")
-            run_command(['bash', '/home/ubuntu/free5gc-compose/ahmad_benign/scripts/uplink_service1_benign.sh', imsi_value])
+            run_command(['bash', '/ueransim/uplink_service1_benign.sh', imsi_value])
         elif event_type == "4":
             cus2 += 1
             print("uplink_service2")
             tr += 1
             with open(file_name, "w") as file:
                 file.write(f"{imsi_value},{tr}\n")
-            run_command(['bash', '/home/ubuntu/free5gc-compose/ahmad_benign/scripts/uplink_service2_benign.sh', imsi_value])
+            run_command(['bash', '/ueransim/uplink_service2_benign.sh', imsi_value])
         elif event_type == "5":
             cus1d += 1
             print("uplink_service1_delayed")
             tr += 1
             with open(file_name, "w") as file:
                 file.write(f"{imsi_value},{tr}\n")
-            run_command(['bash', '/home/ubuntu/free5gc-compose/ahmad_benign/scripts/uplink_service1_delayed.sh', imsi_value])
+            run_command(['bash', '/ueransim/uplink_service1_delayed.sh', imsi_value])
         elif event_type == "6":
             cus2d += 1
             print("uplink_service2_delayed")
             tr += 1
             with open(file_name, "w") as file:
                 file.write(f"{imsi_value},{tr}\n")
-            run_command(['bash', '/home/ubuntu/free5gc-compose/ahmad_benign/scripts/uplink_service2_delayed.sh', imsi_value])
+            run_command(['bash', '/ueransim/uplink_service2_delayed.sh', imsi_value])
         elif event_type == "7":
             cd += 1
             print("downlink")
             tr += 1
             with open(file_name, "w") as file:
                 file.write(f"{imsi_value},{tr}\n")
-            run_command(['bash', '/home/ubuntu/free5gc-compose/ahmad_benign/scripts/downlink.sh', imsi_value])
+            run_command(['bash', '/ueransim/downlink.sh', imsi_value])
         elif event_type == "8":
             cd += 1
             print("pdu_ue_release")
             tr += 1
             with open(file_name, "w") as file:
                 file.write(f"{imsi_value},{tr}\n")
-            run_command(['bash', '/home/ubuntu/free5gc-compose/ahmad_benign/scripts/pdu_ue_release.sh', imsi_value])
+            run_command(['bash', '/ueransim/pdu_ue_release.sh', imsi_value])
         elif event_type == "9":
             cd += 1
             print("pdu_gnb_release")
             tr += 1
             with open(file_name, "w") as file:
                 file.write(f"{imsi_value},{tr}\n")
-            run_command(['bash', '/home/ubuntu/free5gc-compose/ahmad_benign/scripts/pdu_gnb_release.sh', imsi_value, ue[0]])
+            run_command(['bash', '/ueransim/pdu_gnb_release.sh', imsi_value, ue[0]])
         elif event_type == "10":
             cd += 1
             print("deregistration")
             tr += 1
             with open(file_name, "w") as file:
                 file.write(f"{imsi_value},{tr}\n")
-            run_command(['bash', '/home/ubuntu/free5gc-compose/ahmad_benign/scripts/deregister.sh', imsi_value])
+            run_command(['bash', '/ueransim/deregister.sh', imsi_value])
     except Exception as e:
         print(f"Error processing event {event_type} for UE {ue[0]}: {e}")
 
