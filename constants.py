@@ -1,21 +1,21 @@
-NUMBER_OF_UES_PER_SLICE = 1
+NUMBER_OF_UES_PER_SLICE = 35
 
 INTERVAL_TIME = 15.0 
 
-SERVICE_TIME = 56 # the maximum amount of time a UE can spend in the network during each time slot
+SERVICE_TIME = 12 # the maximum amount of time a UE can spend in the network during each time slot
 
-EVENTS_PER_MINUTE = 15 # how many events can happen per minute (per ue or across ues?) ASK
+EVENTS_PER_MINUTE = 20 # how many events can happen per minute (per ue or across ues?) ASK
 
 PROCESSING_TIME_PER_EVENT = { #event: time to process the event
-    1 : 11, 
+    1 : 14, 
     2 : 6, 
     3 : 15, 
     4 : 15,
     5 : 15,
     6 : 15, 
     7 : 6, 
-    8 : 6, 
-    9 : 6, 
+    8 : 8, 
+    9 : 8, 
     10: 3 
     }
 
@@ -47,4 +47,4 @@ PRBABILITIES_OF_LEGAL_NEXT_EVENTS_PER_CURRENT_EVENT_BENIGN = {
     10 : [1] #DEREGISTER
 }
 
-LIST_OF_LAMBDAS = [3] #[1,3,5,7,9,7,5,3,1]
+LIST_OF_LAMBDAS = [1,3,5,7,5,3,1]
