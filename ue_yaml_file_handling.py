@@ -11,9 +11,9 @@ def ue_yaml_file_names(slice_number, ue_number):
 def yamlfiles(total_number_of_ues, start, end, flag): #creating all the UEs yaml files
    lines = [] 
    if (flag == 1):
-      file_path = "/Users/ahmad/Desktop/ahmad_benign/ue1.yaml" #referece yaml file for other UEs of slice 1
+      file_path = "./ue1.yaml" #referece yaml file for other UEs of slice 1
    elif (flag == 2):
-      file_path = "/Users/ahmad/Desktop/ahmad_benign/ue2.yaml" #referece yaml file for other UEs of slice 2  
+      file_path = "./ue2.yaml" #referece yaml file for other UEs of slice 2  
    with open(file_path) as fp:
       lines = fp.readlines()
       for slice_number_x in range(start, end): 
@@ -23,7 +23,7 @@ def yamlfiles(total_number_of_ues, start, end, flag): #creating all the UEs yaml
             x = -4 if len(suffix)==3 else -5
             new_imsi = current_imsi[:x] + suffix + '"'
             lines[1] = new_imsi + "\n"
-            path = "/Users/ahmad/Desktop/ahmad_benign/ues/" + file_name
+            path = "./ues/" + file_name
             with open(path, 'w') as fp:
                for line in lines:
                   fp.write(line)

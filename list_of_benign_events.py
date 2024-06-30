@@ -26,7 +26,7 @@ def list_of_benign_events():
         ue_selected = active_ues_in_the_next_slot.copy()
       
       ues_list = combined_ue_pool(0, NUMBER_OF_UES_PER_SLICE) #cause we need all of them in the benign attack 
-      while (counter < number_of_ues_for_this_lambda):
+      while (counter < 2):
           print(ues_list)
           selected_ue = random.choice(ues_list)
           ues_list.remove(selected_ue)
@@ -45,7 +45,7 @@ def list_of_benign_events():
 
     list_to_execute.sort(key = takefourth)
 
-    with open('/Users/ahmad/Desktop/ahmad_benign/benign_events', 'w') as file:
+    with open('./benign_events', 'w') as file:
         for line in list_to_execute:
           file.write(','.join(str(item) for item in line))
           file.write("\n" )
