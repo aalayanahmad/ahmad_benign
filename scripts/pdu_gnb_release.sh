@@ -13,17 +13,8 @@ UEs="pdu_gnb_release.txt"
 ./nr-cli -d > "$UEs"
 pattern="$1"
 count=$(grep -c "$pattern" "$UEs")
-echo "I am in pdu_ugnb_release and there are currently: $count ues"
+echo "I am $1 and I am in pdu_gnb_release and there are currently: $count ues"
 
-if [ "$count" -ge 1 ]; then
-  echo "second parameter $2"
-  oldtxt=$(sed -n '1p' "/ueransim/ue$2.txt")
-  ueid="${oldtxt:21}"
-  #ueid=$(echo "$oldtxt" | cut -d',' -f2)
-  
-  echo "ueid: $ueid"
-
-  if [ -n "$ueid" ]; then
-    ./nr-cli UERANSIM-gnb-208-93-1 -e "ue-release $ueid"
-  fi
+if [ "$2" -ge 2 ]; then
+    ./nr-cli UERANSIM-gnb-208-93-1 -e "ue-release $2"
 fi

@@ -1,7 +1,8 @@
 import math
 import time
 import subprocess
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, as_completed
+import multiprocessing
 
 imsi1 = 'imsi-208930000000'
 imsi2 = 'imsi-20893000000'
@@ -154,13 +155,19 @@ def process_ue_event(ue, t):
 
 def main():
     global t
-    with ProcessPoolExecutor(max_workers=4) as executor:  # Adjust max_workers as needed
+    max_workers = multiprocessing.cpu_count()  # Use all available CPUs
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
         while t <= 7230:
             t_plus3 = t + 3
             print("interval in seconds = [", str(t), ", ", str(t + 3), "]")
             ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus3]
-            for ue in ue_events:
-                executor.submit(process_ue_event, ue, t)
+            future_to_ue = {executor.submit(process_ue_event, ue, t): ue for ue in ue_events}
+            for future in as_completed(future_to_ue):
+                try:
+                    future.result()
+                except Exception as exc:
+                    ue = future_to_ue[future]
+                    print(f"UE {ue[0]} generated an exception: {exc}")
             time.sleep(3)
             t += 3
 
