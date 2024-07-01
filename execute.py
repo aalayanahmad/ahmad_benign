@@ -1,11 +1,21 @@
 import math
 import time
 import subprocess
-from multiprocessing import Pool, cpu_count
+from concurrent.futures import ProcessPoolExecutor
 
 imsi1 = 'imsi-208930000000'
 imsi2 = 'imsi-20893000000'
-cr = cua = cus1 = cus2 = cus1d = cus2d = cd = cpu = cpg = 0
+cr = 2
+cua = 0
+cus1 = 0
+cus2 = 0
+cus1d = 0
+cus2d = 0
+cd = 0
+cpu = 0
+cpg = 0
+cd = 0
+
 t = 0  # Start time
 tr = 1  # Transaction ID
 
@@ -18,108 +28,141 @@ with open("/ueransim/benign_events", "r") as file:
 
 
 def run_command(command):
-    try:
-        subprocess.run(command, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Command '{command}' failed with error: {e}")
+    subprocess.run(command)
 
 
-def process_ue_event(ue, tr):
-    global cr, cua, cus1, cus2, cus1d, cus2d, cd
+counter_map = {}
+
+
+def process_ue_event(ue, t):
+    global tr, cr, cua, cus1, cus2, cus1d, cus2d, cd, counter_map
     event_type = ue[1]
-    file_name = f"ue{ue[0]}.yaml"
-    imsi = imsi1 if len(ue[0]) == 3 else imsi2
-    imsi_value = imsi + ue[0]
-
     try:
         if event_type == "1":
             cr += 1
             print("registration")
+            counter_map[ue[0]] = cr
             tr += 1
+            file_name = "ue" + ue[0] + ".yaml"
             with open(file_name, "w") as file:
-                file.write(f"{imsi_value},{tr}\n")
+                imsi = imsi1 if len(ue[0]) == 3 else imsi2
+                imsi_value = imsi + ue[0]
+                file.write(imsi_value + "," + str(tr) + "\n")
             run_command(['bash', '/ueransim/scripts/register.sh', file_name])
+
         elif event_type == "2":
             cua += 1
             print("uplink_any")
             tr += 1
+            file_name = "ue" + ue[0] + ".txt"
             with open(file_name, "w") as file:
-                file.write(f"{imsi_value},{tr}\n")
+                imsi = imsi1 if len(ue[0]) == 3 else imsi2
+                imsi_value = imsi + ue[0]
+                file.write(imsi_value + "," + str(tr) + "\n")
             run_command(['bash', '/ueransim/scripts/uplink_any.sh', imsi_value])
+
         elif event_type == "3":
             cus1 += 1
             print("uplink_service1")
             tr += 1
+            file_name = "ue" + ue[0] + ".txt"
             with open(file_name, "w") as file:
-                file.write(f"{imsi_value},{tr}\n")
+                imsi = imsi1 if len(ue[0]) == 3 else imsi2
+                imsi_value = imsi + ue[0]
+                file.write(imsi_value + "," + str(tr) + "\n")
             run_command(['bash', '/ueransim/scripts/uplink_service1_benign.sh', imsi_value])
+
         elif event_type == "4":
             cus2 += 1
             print("uplink_service2")
             tr += 1
+            file_name = "ue" + ue[0] + ".txt"
             with open(file_name, "w") as file:
-                file.write(f"{imsi_value},{tr}\n")
+                imsi = imsi1 if len(ue[0]) == 3 else imsi2
+                imsi_value = imsi + ue[0]
+                file.write(imsi_value + "," + str(tr) + "\n")
             run_command(['bash', '/ueransim/scripts/uplink_service2_benign.sh', imsi_value])
+
         elif event_type == "5":
             cus1d += 1
             print("uplink_service1_delayed")
             tr += 1
+            file_name = "ue" + ue[0] + ".txt"
             with open(file_name, "w") as file:
-                file.write(f"{imsi_value},{tr}\n")
+                imsi = imsi1 if len(ue[0]) == 3 else imsi2
+                imsi_value = imsi + ue[0]
+                file.write(imsi_value + "," + str(tr) + "\n")
             run_command(['bash', '/ueransim/scripts/uplink_service1_delayed.sh', imsi_value])
+
         elif event_type == "6":
             cus2d += 1
             print("uplink_service2_delayed")
             tr += 1
+            file_name = "ue" + ue[0] + ".txt"
             with open(file_name, "w") as file:
-                file.write(f"{imsi_value},{tr}\n")
+                imsi = imsi1 if len(ue[0]) == 3 else imsi2
+                imsi_value = imsi + ue[0]
+                file.write(imsi_value + "," + str(tr) + "\n")
             run_command(['bash', '/ueransim/scripts/uplink_service2_delayed.sh', imsi_value])
+
         elif event_type == "7":
             cd += 1
             print("downlink")
             tr += 1
+            file_name = "ue" + ue[0] + ".txt"
             with open(file_name, "w") as file:
-                file.write(f"{imsi_value},{tr}\n")
+                imsi = imsi1 if len(ue[0]) == 3 else imsi2
+                imsi_value = imsi + ue[0]
+                file.write(imsi_value + "," + str(tr) + "\n")
             run_command(['bash', '/ueransim/scripts/downlink.sh', imsi_value])
+
         elif event_type == "8":
             cd += 1
             print("pdu_ue_release")
             tr += 1
+            file_name = "ue" + ue[0] + ".txt"
             with open(file_name, "w") as file:
-                file.write(f"{imsi_value},{tr}\n")
+                imsi = imsi1 if len(ue[0]) == 3 else imsi2
+                imsi_value = imsi + ue[0]
+                file.write(imsi_value + "," + str(tr) + "\n")
             run_command(['bash', '/ueransim/scripts/pdu_ue_release.sh', imsi_value])
+
         elif event_type == "9":
             cd += 1
             print("pdu_gnb_release")
             tr += 1
+            file_name = "ue" + ue[0] + ".txt"
             with open(file_name, "w") as file:
-                file.write(f"{imsi_value},{tr}\n")
-            run_command(['bash', '/ueransim/scripts/pdu_gnb_release.sh', imsi_value, ue[0]])
+                imsi = imsi1 if len(ue[0]) == 3 else imsi2
+                imsi_value = imsi + ue[0]
+                file.write(imsi_value + "," + str(tr) + "\n")
+            run_command(['bash', '/ueransim/scripts/pdu_gnb_release.sh', imsi_value, str(counter_map[ue[0]])])
+
         elif event_type == "10":
             cd += 1
             print("deregistration")
             tr += 1
+            file_name = "ue" + ue[0] + ".txt"
             with open(file_name, "w") as file:
-                file.write(f"{imsi_value},{tr}\n")
+                imsi = imsi1 if len(ue[0]) == 3 else imsi2
+                imsi_value = imsi + ue[0]
+                file.write(imsi_value + "," + str(tr) + "\n")
             run_command(['bash', '/ueransim/scripts/deregister.sh', imsi_value])
     except Exception as e:
-        print(f"Error processing event {event_type} for UE {ue[0]}: {e}")
+        print(f"Error processing UE {ue[0]} event type {event_type}: {e}")
 
 
 def main():
-    global t, tr
-    pool_size = min(len(ue_list), cpu_count() * 2)  # Adjust pool size as needed
-    with Pool(processes=pool_size) as pool:
+    global t
+    with ProcessPoolExecutor(max_workers=4) as executor:  # Adjust max_workers as needed
         while t <= 7230:
-            t_plus2 = t + 2
-            print(f"interval in seconds = [{t}, {t_plus2}]")
-            ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus2]
+            t_plus3 = t + 3
+            print("interval in seconds = [", str(t), ", ", str(t + 3), "]")
+            ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus3]
             for ue in ue_events:
-                pool.apply_async(process_ue_event, args=(ue, tr))
-            time.sleep(2)
-            t += 2
-        pool.close()
-        pool.join()
+                executor.submit(process_ue_event, ue, t)
+            time.sleep(3)
+            t += 3
 
 
 if __name__ == '__main__':

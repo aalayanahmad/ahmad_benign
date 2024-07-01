@@ -1,8 +1,8 @@
-NUMBER_OF_UES_PER_SLICE = 35
+NUMBER_OF_UES_PER_SLICE = 40
 
 INTERVAL_TIME = 15.0 
 
-SERVICE_TIME = 12 # the maximum amount of time a UE can spend in the network during each time slot
+SERVICE_TIME = 20 # the maximum amount of time a UE can spend in the network during each time slot
 
 EVENTS_PER_MINUTE = 20 # how many events can happen per minute (per ue or across ues?) ASK
 
@@ -14,8 +14,8 @@ PROCESSING_TIME_PER_EVENT = { #event: time to process the event
     5 : 15,
     6 : 15, 
     7 : 6, 
-    8 : 8, 
-    9 : 8, 
+    8 : 12, 
+    9 : 12, 
     10: 3 
     }
 
