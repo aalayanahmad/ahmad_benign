@@ -156,7 +156,7 @@
 #     while t <= 7230:
 #         t_plus70 = t + 70
 #         print("interval in seconds = [", str(t), ", ", str(t_plus70), "]")
-#         ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus4]
+#         ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus70]
 #         for ue in ue_events:
 #             executor.submit(process_ue_event, ue, t)
 #         t += 70
