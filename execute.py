@@ -154,7 +154,7 @@
 # def schedule_events():
 #     global t
 #     while t <= 7230:
-#         t_plus70 = t + 11
+#         t_plus11 = t + 11
 #         print("interval in seconds = [", str(t), ", ", str(t_plus11), "]")
 #         ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus11]
 #         for ue in ue_events:
