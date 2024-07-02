@@ -2,7 +2,7 @@ NUMBER_OF_UES_PER_SLICE = 60
 
 INTERVAL_TIME = 10.0 
 
-SERVICE_TIME = 15 # the maximum amount of time a UE can spend in the network during each time slot
+SERVICE_TIME = 25 # the maximum amount of time a UE can spend in the network during each time slot
 
 EVENTS_PER_MINUTE = 20 # how many events can happen per minute (per ue or across ues?) ASK
 
