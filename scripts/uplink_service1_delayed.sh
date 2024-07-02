@@ -2,8 +2,7 @@
 
 handle_error() {
   local error_code=$?
-  echo "Error occurred in uplink_service1_delayed with exit code: $error_code"
-  # Additional error handling code or exit the script
+  echo "Error occurred in uplink_service1_DELAYED with exit code: $error_code"
   exit $error_code
 }
 
@@ -14,7 +13,6 @@ UEs="ues_to_use_service1_delayed.txt"
 ./nr-cli -d > "$UEs"
 pattern="$1"
 count=$(grep -c "$pattern" "$UEs")
-echo "I am in uplink_service1_delayed and there are currently: $count ues"
 
 if [ "$count" -ge 1 ]; then
   filetxt="$1.txt"
@@ -23,9 +21,9 @@ if [ "$count" -ge 1 ]; then
   find="address: "
   replace=""
   ip=${str//$find/$replace}
-  echo "delayed_service1_uplink $ip"
+  echo "uplink_service1_DELAYED by $1"
   if [ -n "$ip" ]; then
     java delayedClient1 $ip 1
   fi
 fi
-#rm "$filetxt"
+rm "$filetxt"

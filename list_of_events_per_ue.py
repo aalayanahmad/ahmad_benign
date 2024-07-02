@@ -16,7 +16,7 @@ def list_of_events_per_ue(selected_ue, start, end, legal_next_events_per_current
     time = start * 60 
     attempts = 0
     p = 0
-    while (time <= (end_in_seconds - 10)): 
+    while (time <= (end_in_seconds - 25)): 
         if (attempts == 3):
             break
         else:
@@ -33,7 +33,7 @@ def list_of_events_per_ue(selected_ue, start, end, legal_next_events_per_current
                 p = time + poisson
 
             # Check if the next event trigger time is within the allowed time window
-            if (p <= (end_in_seconds - 10)):  
+            if (p <= (end_in_seconds - 25)):  
                 time = p
                 list_to_store_events.append([extract_ue_number(selected_ue), event_to_trigger, time, lambda_value])
                 current_state = event_to_trigger

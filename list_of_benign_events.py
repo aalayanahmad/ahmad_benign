@@ -12,7 +12,7 @@ def list_of_benign_events():
     
     ue_state = dict() #to manage ue states throughout the program (ACTIVE OR DEACTIVATED)
     ues_list = [] #to hold all the UEs in the network!
-    ue_selected = [] #to control the number of ues that has been selected
+    ue_selected = [] #to hold the ues that has been selected
     list_to_execute = []
     active_ues_in_the_next_slot = []
     slot_time = 0.0
@@ -26,8 +26,7 @@ def list_of_benign_events():
         ue_selected = active_ues_in_the_next_slot.copy()
       
       ues_list = combined_ue_pool(0, NUMBER_OF_UES_PER_SLICE) #cause we need all of them in the benign attack 
-      while (counter < 2):
-          print(ues_list)
+      while (counter < number_of_ues_for_this_lambda):
           selected_ue = random.choice(ues_list)
           ues_list.remove(selected_ue)
           if selected_ue in ue_selected: #ensuring ues are not repeated
