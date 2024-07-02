@@ -1,8 +1,9 @@
 # import math
 # import time
 # import subprocess
-# from concurrent.futures import ProcessPoolExecutor, as_completed
+# from concurrent.futures import ProcessPoolExecutor
 # import multiprocessing
+# from threading import Thread
 
 # imsi1 = 'imsi-208930000000'
 # imsi2 = 'imsi-20893000000'
@@ -27,13 +28,10 @@
 #         x = line.strip().split(",", 4)
 #         ue_list.append(x)
 
-
 # def run_command(command):
 #     subprocess.run(command)
 
-
-# counter_map = {}
-
+# gnb_ueID_map = {}
 
 # def process_ue_event(ue, t):
 #     global tr, cr, cua, cus1, cus2, cus1d, cus2d, cd, counter_map
@@ -42,7 +40,7 @@
 #         if event_type == "1":
 #             cr += 1
 #             print("registration")
-#             counter_map[ue[0]] = cr
+#             gnb_ueID_map[ue[0]] = cr
 #             tr += 1
 #             file_name = "ue" + ue[0] + ".yaml"
 #             with open(file_name, "w") as file:
@@ -136,8 +134,9 @@
 #             with open(file_name, "w") as file:
 #                 imsi = imsi1 if len(ue[0]) == 3 else imsi2
 #                 imsi_value = imsi + ue[0]
+#                 gnb_id = str(counter_map[ue[0]])
 #                 file.write(imsi_value + "," + str(tr) + "\n")
-#             run_command(['bash', '/ueransim/scripts/pdu_gnb_release.sh', imsi_value, str(counter_map[ue[0]])])
+#             run_command(['bash', '/ueransim/scripts/pdu_gnb_release.sh', imsi_value, gnb_id])
 
 #         elif event_type == "10":
 #             cd += 1
@@ -152,25 +151,29 @@
 #     except Exception as e:
 #         print(f"Error processing UE {ue[0]} event type {event_type}: {e}")
 
+# def schedule_events():
+#     global t
+#     while t <= 7230:
+#         t_plus70 = t + 70
+#         print("interval in seconds = [", str(t), ", ", str(t_plus70), "]")
+#         ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus4]
+#         for ue in ue_events:
+#             executor.submit(process_ue_event, ue, t)
+#         t += 70
+#         time.sleep(70)
 
 # def main():
-#     global t
+#     global executor
 #     max_workers = multiprocessing.cpu_count()  # Use all available CPUs
-#     with ProcessPoolExecutor(max_workers=max_workers) as executor:
-#         while t <= 7230:
-#             t_plus4 = t + 6
-#             print("interval in seconds = [", str(t), ", ", str(t + 6), "]")
-#             ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus6]
-#             future_to_ue = {executor.submit(process_ue_event, ue, t): ue for ue in ue_events}
-#             for future in as_completed(future_to_ue):
-#                 try:
-#                     future.result()
-#                 except Exception as exc:
-#                     ue = future_to_ue[future]
-#                     print(f"UE {ue[0]} generated an exception: {exc}")
-#             time.sleep(6)
-#             t += 6
+#     executor = ProcessPoolExecutor(max_workers=max_workers)
 
+#     # Start the scheduling thread
+#     scheduler_thread = Thread(target=schedule_events)
+#     scheduler_thread.start()
+#     scheduler_thread.join()
+
+#     # Shutdown the executor
+#     executor.shutdown(wait=True)
 
 # if __name__ == '__main__':
 #     main()
