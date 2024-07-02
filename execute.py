@@ -158,9 +158,9 @@ def main():
     max_workers = multiprocessing.cpu_count()  # Use all available CPUs
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
         while t <= 7230:
-            t_plus3 = t + 3
-            print("interval in seconds = [", str(t), ", ", str(t + 3), "]")
-            ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus3]
+            t_plus4 = t + 4
+            print("interval in seconds = [", str(t), ", ", str(t + 4), "]")
+            ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus4]
             future_to_ue = {executor.submit(process_ue_event, ue, t): ue for ue in ue_events}
             for future in as_completed(future_to_ue):
                 try:
@@ -168,8 +168,8 @@ def main():
                 except Exception as exc:
                     ue = future_to_ue[future]
                     print(f"UE {ue[0]} generated an exception: {exc}")
-            time.sleep(3)
-            t += 3
+            time.sleep(4)
+            t += 4
 
 
 if __name__ == '__main__':
