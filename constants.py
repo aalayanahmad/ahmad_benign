@@ -4,7 +4,7 @@ INTERVAL_TIME = 10.0
 
 SERVICE_TIME = 12 # the maximum amount of time a UE can spend in the network during each time slot
 
-EVENTS_PER_MINUTE = 20 # how many events can happen per minute (per ue or across ues?) ASK
+EVENTS_PER_MINUTE = 18 # how many events can happen per minute (per ue or across ues?) ASK
 
 PROCESSING_TIME_PER_EVENT = { #event: time to process the event
     1 : 60, 

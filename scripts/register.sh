@@ -10,4 +10,4 @@ handle_error() {
 
 trap 'handle_error ${LINENO} "$BASH_COMMAND"' ERR
 
-./nr-ue -c "config/ue$1.yaml" -n 1
+./nr-ue -c "config/ue$1.yaml" -n 1 & sleep 2

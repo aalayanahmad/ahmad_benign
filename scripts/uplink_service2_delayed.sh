@@ -22,6 +22,7 @@ if [ "$count" -ge 1 ]; then
   find="address: "
   replace=""
   ip=${str//$find/$replace}
+  ip=$(echo $ip | xargs)
   echo "uplink_service2_DELAYED by $1"
   if [ -n "$ip" ]; then
     python3 delayedClient2.py $ip 2

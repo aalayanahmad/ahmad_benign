@@ -26,11 +26,14 @@ if [ "$count" -ge 1 ]; then
     echo "Downlink for IP: $ip"
     subn="${ip:5:1}"
     if [ -n "$ip" ]; then
+    echo "subn: $subn"
         if [ "$subn" = "0" ]; then
             echo "Downlink from $1 to slice 1"
+            ip=$(echo $ip | xargs)
             ping -c 3 -I "$ip" 10.60.0.1
         elif [ "$subn" = "1" ]; then
             echo "Downlink from $1 to slice 2"
+            ip=$(echo $ip | xargs)
             ping -c 3 -I "$ip" 10.61.0.1
         fi
     fi
