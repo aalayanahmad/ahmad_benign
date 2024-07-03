@@ -12,4 +12,4 @@ trap 'handle_error ${LINENO} "$BASH_COMMAND"' ERR
 
 echo "UE $1 is trying to deregister..."
 
-./nr-cli "$1" -e 'deregister switch-off'
+./nr-cli "$1" -e 'deregister switch-off' & sleep 2

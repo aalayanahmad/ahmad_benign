@@ -18,6 +18,6 @@ echo "I am $1 and I am in pdu_gnb_release and there are currently: $count UEs"
 
 if [ "$count" -ge 1 ]; then
   if [ "$2" -ge 3 ]; then
-      ./nr-cli UERANSIM-gnb-208-93-1 -e "ue-release $2"
+      ./nr-cli UERANSIM-gnb-208-93-1 -e "ue-release $2" & sleep 2
   fi
 fi

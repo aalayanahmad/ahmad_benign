@@ -29,9 +29,6 @@ with open("/ueransim/benign_events", "r") as file:
         x = line.strip().split(",", 4)
         ue_list.append(x)
 
-# Limit the number of concurrent processes
-semaphore = Semaphore(3)
-
 def run_command(command):
         subprocess.run(command)
 
@@ -88,10 +85,7 @@ while t <= 7230:
             print(f"Unexpected error: {e}")
 
     for p in processes:
-        semaphore.acquire() 
         p.start()
-        semaphore.release() 
-        time.sleep(2)
 
     # Allow some time for the started processes to run
     time.sleep(3)
