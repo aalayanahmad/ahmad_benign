@@ -1,27 +1,28 @@
 # import math
 # import time
 # import subprocess
-# from concurrent.futures import ProcessPoolExecutor
-# import multiprocessing
-# from threading import Thread
+# from multiprocessing import Process
 
 # imsi1 = 'imsi-208930000000'
 # imsi2 = 'imsi-20893000000'
+
 # cr = 2
 # cua = 0
 # cus1 = 0
 # cus2 = 0
 # cus1d = 0
 # cus2d = 0
-# cd = 0
+# cdl = 0
 # cpu = 0
 # cpg = 0
-# cd = 0
+# cdr = 0
 
-# t = 0  # Start time
-# tr = 1  # Transaction ID
+# t = 0 
+# tr = 1  
 
 # ue_list = []
+# gnb_ueID_map = {} #to store gnb id
+
 # with open("/ueransim/benign_events", "r") as file:
 #     lines = file.readlines()
 #     for line in lines:
@@ -31,149 +32,109 @@
 # def run_command(command):
 #     subprocess.run(command)
 
-# gnb_ueID_map = {}
 
-# def process_ue_event(ue, t):
-#     global tr, cr, cua, cus1, cus2, cus1d, cus2d, cd, counter_map
-#     event_type = ue[1]
-#     try:
-#         if event_type == "1":
+# while t <= 7230:
+#     t_plus3 = t + 3
+#     print("interval in seconds = [", str(t), ", ", str(t_plus3), "]")
+#     ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus3]
+#     processes = []
+
+#     for ue in ue_events:
+        
+#         event = ue[1]
+#         imsi = imsi1 if len(ue[0]) == 3 else imsi2
+#         imsi_value = imsi + ue[0]
+        
+#         if (event == "1"):
+#          try:
 #             cr += 1
-#             print("registration")
-#             gnb_ueID_map[ue[0]] = cr
+#             gnb_ueID_map[ue[0]] = str(cr) 
 #             tr += 1
-#             file_name = "ue" + ue[0] + ".yaml"
-#             with open(file_name, "w") as file:
-#                 imsi = imsi1 if len(ue[0]) == 3 else imsi2
-#                 imsi_value = imsi + ue[0]
-#                 file.write(imsi_value + "," + str(tr) + "\n")
-#             run_command(['bash', '/ueransim/scripts/register.sh', file_name])
-
-#         elif event_type == "2":
+#             imsi = imsi1 if len(ue[0]) == 3 else imsi2
+#             imsi_value = imsi + ue[0]
+#             p = Process(target=run_command, args=(['bash', '/ueransim/scripts/register.sh', ue[0]],))
+#             processes.append(p)
+#          except:
+#             print("error in registeration in exectue")   
+        
+#         elif (event == "2"):
+#          try:        
 #             cua += 1
-#             print("uplink_any")
-#             tr += 1
-#             file_name = "ue" + ue[0] + ".txt"
-#             with open(file_name, "w") as file:
-#                 imsi = imsi1 if len(ue[0]) == 3 else imsi2
-#                 imsi_value = imsi + ue[0]
-#                 file.write(imsi_value + "," + str(tr) + "\n")
-#             run_command(['bash', '/ueransim/scripts/uplink_any.sh', imsi_value])
-
-#         elif event_type == "3":
+#             tr += 1 
+#             p = Process(target=run_command, args=(['bash', '/ueransim/scripts/uplink_any.sh', imsi_value],))
+#             processes.append(p)
+#          except:
+#             print("error in uplink_any in execute")   
+        
+#         elif (event == "3"):
+#          try:
 #             cus1 += 1
-#             print("uplink_service1")
-#             tr += 1
-#             file_name = "ue" + ue[0] + ".txt"
-#             with open(file_name, "w") as file:
-#                 imsi = imsi1 if len(ue[0]) == 3 else imsi2
-#                 imsi_value = imsi + ue[0]
-#                 file.write(imsi_value + "," + str(tr) + "\n")
-#             run_command(['bash', '/ueransim/scripts/uplink_service1_benign.sh', imsi_value])
-
-#         elif event_type == "4":
+#             p = Process(target=run_command, args=(['bash', '/ueransim/scripts/uplink_service1_benign.sh', imsi_value],))
+#             processes.append(p)
+#          except:
+#             print("error in uplink_service1 in execute")   
+        
+#         elif (event == "4"):
+#          try:        
 #             cus2 += 1
-#             print("uplink_service2")
-#             tr += 1
-#             file_name = "ue" + ue[0] + ".txt"
-#             with open(file_name, "w") as file:
-#                 imsi = imsi1 if len(ue[0]) == 3 else imsi2
-#                 imsi_value = imsi + ue[0]
-#                 file.write(imsi_value + "," + str(tr) + "\n")
-#             run_command(['bash', '/ueransim/scripts/uplink_service2_benign.sh', imsi_value])
-
-#         elif event_type == "5":
+#             p = Process(target=run_command, args=(['bash', '/ueransim/scripts/uplink_service2_benign.sh', imsi_value],))
+#             processes.append(p)
+#          except:
+#             print("error in uplink_service2 in execute")   
+        
+#         elif (event == "5"):
+#          try:        
 #             cus1d += 1
-#             print("uplink_service1_delayed")
-#             tr += 1
-#             file_name = "ue" + ue[0] + ".txt"
-#             with open(file_name, "w") as file:
-#                 imsi = imsi1 if len(ue[0]) == 3 else imsi2
-#                 imsi_value = imsi + ue[0]
-#                 file.write(imsi_value + "," + str(tr) + "\n")
-#             run_command(['bash', '/ueransim/scripts/uplink_service1_delayed.sh', imsi_value])
-
-#         elif event_type == "6":
+#             p = Process(target=run_command, args=(['bash', '/ueransim/scripts/uplink_service1_delayed.sh', imsi_value],))
+#             processes.append(p)
+#          except:
+#             print("error in uplink_service1_delayed in execute")   
+        
+#         elif (event == "6"):
+#          try:        
 #             cus2d += 1
-#             print("uplink_service2_delayed")
-#             tr += 1
-#             file_name = "ue" + ue[0] + ".txt"
-#             with open(file_name, "w") as file:
-#                 imsi = imsi1 if len(ue[0]) == 3 else imsi2
-#                 imsi_value = imsi + ue[0]
-#                 file.write(imsi_value + "," + str(tr) + "\n")
-#             run_command(['bash', '/ueransim/scripts/uplink_service2_delayed.sh', imsi_value])
+#             p = Process(target=run_command, args=(['bash', '/ueransim/scripts/uplink_service2_delayed.sh', imsi_value],))
+#             processes.append(p)
+#          except:
+#             print("error in uplink_service2_delayed in execute")   
+        
+#         elif (event == "7"):
+#          try:        
+#             cdl += 1
+#             p = Process(target=run_command, args=(['bash', '/ueransim/scripts/downlink.sh', imsi_value],))
+#             processes.append(p)
+#          except:
+#             print("error in downlink in execute")   
+        
+#         elif (event == "8"):
+#          try:        
+#             cpu += 1
+#             p = Process(target=run_command, args=(['bash', '/ueransim/scripts/pdu_ue_release.sh', imsi_value],))
+#             processes.append(p)
+#          except:
+#             print("error in pdu_ue_release in execute")   
 
-#         elif event_type == "7":
-#             cd += 1
-#             print("downlink")
-#             tr += 1
-#             file_name = "ue" + ue[0] + ".txt"
-#             with open(file_name, "w") as file:
-#                 imsi = imsi1 if len(ue[0]) == 3 else imsi2
-#                 imsi_value = imsi + ue[0]
-#                 file.write(imsi_value + "," + str(tr) + "\n")
-#             run_command(['bash', '/ueransim/scripts/downlink.sh', imsi_value])
+#         elif (event == "9"):
+#                 try:        
+#                     cpg += 1
+#                     ue_id = gnb_ueID_map[ue[0]]
+#                     p = Process(target=run_command, args=(['bash', '/ueransim/scripts/pdu_gnb_release.sh', imsi_value, ue_id],))
+#                     processes.append(p)
+#                 except:
+#                     print("error in pdu_gnb_release in execute")   
+#         else:
+#             try:          
+#                 cdr += 1
+#                 p = Process(target=run_command, args=(['bash', '/ueransim/scripts/deregister.sh', imsi_value],))
+#                 processes.append(p)
+#             except:
+#                 print("error in deregistration in execute")     
 
-#         elif event_type == "8":
-#             cd += 1
-#             print("pdu_ue_release")
-#             tr += 1
-#             file_name = "ue" + ue[0] + ".txt"
-#             with open(file_name, "w") as file:
-#                 imsi = imsi1 if len(ue[0]) == 3 else imsi2
-#                 imsi_value = imsi + ue[0]
-#                 file.write(imsi_value + "," + str(tr) + "\n")
-#             run_command(['bash', '/ueransim/scripts/pdu_ue_release.sh', imsi_value])
+#     for p in processes:
+#        time.sleep(1)
+#        p.start()
 
-#         elif event_type == "9":
-#             cd += 1
-#             print("pdu_gnb_release")
-#             tr += 1
-#             file_name = "ue" + ue[0] + ".txt"
-#             with open(file_name, "w") as file:
-#                 imsi = imsi1 if len(ue[0]) == 3 else imsi2
-#                 imsi_value = imsi + ue[0]
-#                 gnb_id = str(counter_map[ue[0]])
-#                 file.write(imsi_value + "," + str(tr) + "\n")
-#             run_command(['bash', '/ueransim/scripts/pdu_gnb_release.sh', imsi_value, gnb_id])
+#     time.sleep(3)
+#     t += 3
 
-#         elif event_type == "10":
-#             cd += 1
-#             print("deregistration")
-#             tr += 1
-#             file_name = "ue" + ue[0] + ".txt"
-#             with open(file_name, "w") as file:
-#                 imsi = imsi1 if len(ue[0]) == 3 else imsi2
-#                 imsi_value = imsi + ue[0]
-#                 file.write(imsi_value + "," + str(tr) + "\n")
-#             run_command(['bash', '/ueransim/scripts/deregister.sh', imsi_value])
-#     except Exception as e:
-#         print(f"Error processing UE {ue[0]} event type {event_type}: {e}")
-
-# def schedule_events():
-#     global t
-#     while t <= 7230:
-#         t_plus11 = t + 11
-#         print("interval in seconds = [", str(t), ", ", str(t_plus11), "]")
-#         ue_events = [ue for ue in ue_list if t <= math.floor(float(ue[2])) < t_plus11]
-#         for ue in ue_events:
-#             executor.submit(process_ue_event, ue, t)
-#         t += 11
-#         time.sleep(11)
-
-# def main():
-#     global executor
-#     max_workers = multiprocessing.cpu_count()  # Use all available CPUs
-#     executor = ProcessPoolExecutor(max_workers=max_workers)
-
-#     # Start the scheduling thread
-#     scheduler_thread = Thread(target=schedule_events)
-#     scheduler_thread.start()
-#     scheduler_thread.join()
-
-#     # Shutdown the executor
-#     executor.shutdown(wait=True)
-
-# if __name__ == '__main__':
-#     main()
+# print("cr:" + str(cr) + "   cua:" + str(cua) + "   cus1:" + str(cus1) + "   cus2:" + str(cus2) + "   cus1d:" + str(cus1d) + "   cus2d:" + str(cus2d) + "   cdl:" + str(cdl) + "   cpu:" + str(cpu) + "   cpg:" + str(cpg) + "   cdr:" + str(cdr))

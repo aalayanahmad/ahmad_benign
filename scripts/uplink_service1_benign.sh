@@ -2,11 +2,13 @@
 
 handle_error() {
   local error_code=$?
-  echo "Error occurred in uplink_service1_benign with exit code: $error_code"
+  local line_number=$1
+  local command=$2
+  echo "Error occurred in uplink_service1_NORMAL when executing $command at line $line_number with exit code: $error_code"
   exit $error_code
 }
 
-trap 'handle_error' ERR
+trap 'handle_error ${LINENO} "$BASH_COMMAND"' ERR
 
 UEs="ues_to_use_service1.txt"
 ./nr-cli -d > "$UEs"
@@ -22,7 +24,7 @@ if [ "$count" -ge 1 ]; then
   ip=${str//$find/$replace}
   echo "service1_uplink by $1"
   if [ -n "$ip" ]; then
-   java client1 $ip 1
+    java client1 $ip 1
   fi
 fi
-rm "$filetxt"
+#rm "$filetxt"

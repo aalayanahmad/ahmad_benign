@@ -2,11 +2,13 @@
 
 handle_error() {
   local error_code=$?
-  echo "Error occurred in uplink_service2_DELAYED exit code: $error_code"
+  local line_number=$1
+  local command=$2
+  echo "Error occurred in uplink_service2_DELAYED when executing $command at line $line_number with exit code: $error_code"
   exit $error_code
 }
 
-trap 'handle_error' ERR
+trap 'handle_error ${LINENO} "$BASH_COMMAND"' ERR
 
 UEs="ues_to_use_service2_delayed.txt"
 ./nr-cli -d > "$UEs"
@@ -25,4 +27,4 @@ if [ "$count" -ge 1 ]; then
     python3 delayedClient2.py $ip 2
   fi
 fi
-rm "$filetxt"
+#rm "$filetxt"

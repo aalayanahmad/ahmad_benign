@@ -1,13 +1,13 @@
 #!/bin/bash
 
-echo "ue $1 is trying to register..."
-
 handle_error() {
   local error_code=$?
-  echo "An error occurred while trying to register ue $1! The error code is: $error_code"
+  local line_number=$1
+  local command=$2
+  echo "Error occurred in register when executing $command at line $line_number with exit code: $error_code"
   exit $error_code
 }
 
-trap 'handle_error' ERR
+trap 'handle_error ${LINENO} "$BASH_COMMAND"' ERR
 
-./nr-ue -c config/$1 -n 1
+./nr-ue -c "config/ue$1.yaml" -n 1

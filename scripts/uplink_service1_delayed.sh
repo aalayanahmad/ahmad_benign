@@ -2,12 +2,13 @@
 
 handle_error() {
   local error_code=$?
-  echo "Error occurred in uplink_service1_DELAYED with exit code: $error_code"
+  local line_number=$1
+  local command=$2
+  echo "Error occurred in uplink_service1_DELAYED when executing $command at line $line_number with exit code: $error_code"
   exit $error_code
 }
 
-# Set the error handler function to be called on any error
-trap 'handle_error' ERR
+trap 'handle_error ${LINENO} "$BASH_COMMAND"' ERR
 
 UEs="ues_to_use_service1_delayed.txt"
 ./nr-cli -d > "$UEs"
@@ -26,4 +27,4 @@ if [ "$count" -ge 1 ]; then
     java delayedClient1 $ip 1
   fi
 fi
-rm "$filetxt"
+#rm "$filetxt"

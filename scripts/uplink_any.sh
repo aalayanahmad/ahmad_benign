@@ -1,12 +1,14 @@
- #!/bin/bash
+#!/bin/bash
 
 handle_error() {
   local error_code=$?
-  echo "Error occurred while trying to perform uplink_any with exit code: $error_code"
+  local line_number=$1
+  local command=$2
+  echo "Error occurred in uplink_any when executing $command at line $line_number with exit code: $error_code"
   exit $error_code
 }
 
-trap 'handle_error' ERR
+trap 'handle_error ${LINENO} "$BASH_COMMAND"' ERR
 
 UEs="ues_uplink_any.txt"
 ./nr-cli -d > "$UEs"
@@ -21,10 +23,10 @@ if [ "$count" -ge 1 ]; then
   replace=""
   ip=${str//$find/$replace}
   ip=$(echo $ip | xargs)
-  echo "starting uplink_any by $ip"
+  echo "Starting uplink_any by $ip"
 
   if [ -n "$ip" ]; then
     ping -c 3 -I $ip 8.8.8.8
   fi
 fi
-rm "$filetxt"
+#rm "$filetxt"
