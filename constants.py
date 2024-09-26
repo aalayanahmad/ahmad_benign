@@ -1,6 +1,6 @@
 NUMBER_OF_UES_PER_SLICE = 50
 
-INTERVAL_TIME = 15.0 
+INTERVAL_TIME = 13.0 
 
 SERVICE_TIME = 12 # the maximum amount of time a UE can spend in the network during each time slot
 

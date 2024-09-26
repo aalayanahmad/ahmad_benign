@@ -14,15 +14,19 @@ def list_of_benign_events():
     active_ues_in_the_next_slot = []
     slot_time = 0.0
     for lambda_value in LIST_OF_LAMBDAS:
-      number_of_ues_for_this_lambda = lambda_value * INTERVAL_TIME
+      #use a different seed per lambda
+      random_seed = random.randint(0, 10000)  
+      random.seed(random_seed)
+      number_of_ues_for_this_lambda = lambda_value * INTERVAL_TIME #why ASK
       counter = 0
     
       if (lambda_value > 1):
-        active_ues_in_the_next_slot = [ue_temp for ue_temp in ue_selected if ue_state[ue_temp + "_D"] >= slot_time] 
         ue_selected.clear()
-        ue_selected = active_ues_in_the_next_slot.copy()
+        ues_that_will_still_be_active_in_the_next_slot = [ue_temp for ue_temp in ue_selected if ue_state[ue_temp + "_D"] >= slot_time] 
+        #to ensure these ues are not selected while they are still active
+        ue_selected = ues_that_will_still_be_active_in_the_next_slot.copy()
       
-      ues_list = combined_ue_pool(0, NUMBER_OF_UES_PER_SLICE) #cause we need all of them in the benign attack 
+      ues_list = combined_ue_pool(0, NUMBER_OF_UES_PER_SLICE) #cause all of them will be performing benign procedures (need not exclude anything as attack)
       while (counter < number_of_ues_for_this_lambda):
           selected_ue = random.choice(ues_list)
           ues_list.remove(selected_ue)
@@ -30,16 +34,16 @@ def list_of_benign_events():
             continue
           else: 
             ue_selected.append(selected_ue)
-            ue_state[selected_ue + "_A"] = - (1/lambda_value) * math.log(random.random()) + slot_time 
-            ue_state[selected_ue + "_D"] = ue_state[selected_ue + "_A"] + service_time()    
+            ue_state[selected_ue + "_A"] = - (1/lambda_value) * math.log(random.random()) + slot_time #poisson arrival of ues
+            ue_state[selected_ue + "_D"] = ue_state[selected_ue + "_A"] + service_time() #serive time acc to formula t_departure = t_arrival + service time   
             
-            lisrt = ue_poisson_event_distribution(selected_ue, ue_state[selected_ue + "_A"], ue_state[selected_ue + "_D"], list_to_execute, lambda_value, counter)
+            ue_poisson_event_distribution(selected_ue, ue_state[selected_ue + "_A"], ue_state[selected_ue + "_D"], list_to_execute, lambda_value, counter)
             counter+=1 #counting number of selected UEs
-      slot_time += INTERVAL_TIME 
+      slot_time += INTERVAL_TIME #move to the next slot time (i.e next lambda) 
 
     list_to_execute.sort(key = takefourth)
 
-    with open('./benign_events', 'w') as file:
+    with open('./list_of_benign_events', 'w') as file:
         for line in list_to_execute:
           file.write(','.join(str(item) for item in line))
           file.write("\n" )
