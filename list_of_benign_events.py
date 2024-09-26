@@ -7,8 +7,8 @@ from list_of_events_per_ue import *
 
 def list_of_benign_events():
 
-    yamlfiles(NUMBER_OF_UES_PER_SLICE, 1, 2, 1) #creates the yaml files for the UEs of slice 1
-    yamlfiles(NUMBER_OF_UES_PER_SLICE, 2, 3, 2) #creates the yaml files for the UEs of slice 2
+    create_yaml_files(NUMBER_OF_UES_PER_SLICE, 1) #creates the yaml files for the UEs of slice 1
+    create_yaml_files(NUMBER_OF_UES_PER_SLICE, 2) #creates the yaml files for the UEs of slice 2
     
     ue_state = dict() #to manage ue states throughout the program (ACTIVE OR DEACTIVATED)
     ues_list = [] #to hold all the UEs in the network!
