@@ -1,7 +1,7 @@
 import math
 import time
 import subprocess
-from multiprocessing import Process, Semaphore
+from multiprocessing import Process
 
 imsi1 = 'imsi-208930000000'
 imsi2 = 'imsi-20893000000'

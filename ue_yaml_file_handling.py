@@ -37,9 +37,10 @@ def create_yaml_files(total_number_of_ues_per_slice, slice_number): #creates all
             for line in lines:
                fp.write(line)
 
-#create_yaml_files(50, 1)
-#create_yaml_files(50, 2)
+# create_yaml_files(NUMBER_OF_UES_PER_SLICE, 1) #creates the yaml files for the UEs of slice 1
+# create_yaml_files(NUMBER_OF_UES_PER_SLICE, 2) #creates the yaml files for the UEs of slice 2
+
                              ############################################
 
- def takefourth(element):
+def takefourth(element):
      return element[2] #return elem[3]

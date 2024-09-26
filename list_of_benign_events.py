@@ -3,13 +3,10 @@ from constants import *
 from numpy import random
 import math
 from time_for_event_execution import *
-from list_of_events_per_ue import *
+from ahmad_benign.ue_poisson_event_distribution import *
 
 def list_of_benign_events():
 
-    create_yaml_files(NUMBER_OF_UES_PER_SLICE, 1) #creates the yaml files for the UEs of slice 1
-    create_yaml_files(NUMBER_OF_UES_PER_SLICE, 2) #creates the yaml files for the UEs of slice 2
-    
     ue_state = dict() #to manage ue states throughout the program (ACTIVE OR DEACTIVATED)
     ues_list = [] #to hold all the UEs in the network!
     ue_selected = [] #to hold the ues that has been selected
@@ -36,9 +33,7 @@ def list_of_benign_events():
             ue_state[selected_ue + "_A"] = - (1/lambda_value) * math.log(random.random()) + slot_time 
             ue_state[selected_ue + "_D"] = ue_state[selected_ue + "_A"] + service_time()    
             
-            lisrt = list_of_events_per_ue(selected_ue, ue_state[selected_ue + "_A"], ue_state[selected_ue + "_D"],
-                       LEGAL_NEXT_EVENTS_PER_CURRENT_EVENT, PRBABILITIES_OF_LEGAL_NEXT_EVENTS_PER_CURRENT_EVENT_BENIGN,
-                       list_to_execute, lambda_value, counter)
+            lisrt = ue_poisson_event_distribution(selected_ue, ue_state[selected_ue + "_A"], ue_state[selected_ue + "_D"], list_to_execute, lambda_value, counter)
             counter+=1 #counting number of selected UEs
       slot_time += INTERVAL_TIME 
 
