@@ -49,7 +49,7 @@ def list_of_benign_events_for_all_ues():
           file.write("\n" )
           
     return list_to_execute
-#what happens if the next event was de registration???/      
+#what happens if the next event was de registration??? i de register twice      
 
 #this function combines all UEs from all slices in the network into ue_list 
 def combined_ue_pool(start, end): 

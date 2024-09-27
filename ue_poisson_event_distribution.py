@@ -18,7 +18,7 @@ def ue_poisson_event_distribution(selected_ue, t_arrival, t_departure, list_of_e
     #the time the UE ARRIVES to the network (according to service time)
     t_arrival = t_arrival * 60
     #appending the REGISTER event as the first one accoridng to UE poisson arrival time
-    list_of_events_for_this_ue.append([int(selected_ue[2:5]), 1, t_arrival * 60, lambda_value]) 
+    list_of_events_for_this_ue.append([int(selected_ue[2:5]), 1, t_arrival, lambda_value]) 
     #need to go from REGISTER to another event so set current state to REGISTER
     current_state = 1  
     #the poisson arrivals formula is: t_i = t_(i-1) + poisson, so set t(i-1) to arrival time t0 because t1 = t0 + poisson 
