@@ -53,7 +53,7 @@ def ue_poisson_event_distribution(selected_ue, t_arrival, t_departure, list_of_e
                 attempts += 1
 
     #append the final deregister event
-    list_of_events_for_this_ue.append([extract_ue_number(selected_ue), 7, t_departure, lambda_value])
+    list_of_events_for_this_ue.append([extract_ue_number(selected_ue), 6, t_departure, lambda_value])
 
     return list_of_events_for_this_ue
 
