@@ -11,7 +11,7 @@ def list_of_benign_events():
     ues_list = [] #to hold all the UEs in the network!
     ue_selected = [] #to hold the ues that has been selected
     list_to_execute = []
-    active_ues_in_the_next_slot = []
+    ues_that_will_still_be_active_in_the_next_slot = []
     slot_time = 0.0
     for lambda_value in LIST_OF_LAMBDAS:
       #use a different seed per lambda
@@ -34,7 +34,7 @@ def list_of_benign_events():
             continue
           else: 
             ue_selected.append(selected_ue)
-            ue_state[selected_ue + "_A"] = - (1/lambda_value) * math.log(random.random()) + slot_time #poisson arrival of ues
+            ue_state[selected_ue + "_A"] = (-(1/lambda_value) * math.log(random.random())) + slot_time #poisson arrival of ues
             ue_state[selected_ue + "_D"] = ue_state[selected_ue + "_A"] + service_time() #serive time acc to formula t_departure = t_arrival + service time   
             
             ue_poisson_event_distribution(selected_ue, ue_state[selected_ue + "_A"], ue_state[selected_ue + "_D"], list_to_execute, lambda_value, counter)
