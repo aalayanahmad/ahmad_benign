@@ -88,7 +88,7 @@ while t <= 6000:
         p.start()
 
     # Allow some time for the started processes to run
-    time.sleep(3)
-    t += 3
+    time.sleep(2)
+    t += 2
 
-print("cr:" + str(cr) + "   cua:" + str(cua) + "   cus1:" + str(cus1) + "   cus2:" + str(cus2) + "   cus1d:" + str(cus1d) + "   cus2d:" + str(cus2d) + "   cdl:" + str(cdl) + "   cpu:" + str(cpu) + "   cpg:" + str(cpg) + "   cdr:" + str(cdr))
+# print("cr:" + str(cr) + "   cua:" + str(cua) + "   cus1:" + str(cus1) + "   cus2:" + str(cus2) + "   cus1d:" + str(cus1d) + "   cus2d:" + str(cus2d) + "   cdl:" + str(cdl) + "   cpu:" + str(cpu) + "   cpg:" + str(cpg) + "   cdr:" + str(cdr))
