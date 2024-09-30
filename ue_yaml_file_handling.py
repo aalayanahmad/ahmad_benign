@@ -1,3 +1,5 @@
+from constants import NUMBER_OF_UES_PER_SLICE
+
 def ue_yaml_file_names(slice_number, ue_number):
     if (ue_number < 10):
       suffix = f"{slice_number}0{ue_number}" 
@@ -28,8 +30,8 @@ def create_yaml_files(total_number_of_ues_per_slice, slice_number): #creates all
          #modify the imsi
          current_imsi = lines[1].strip() #modify the imsi of the ith ue
          x = -4 if len(suffix) == 3 else -5
-         new_imsi = current_imsi[:x] + suffix + '"'
-         lines[1] = new_imsi + "\n"
+         new_imsi = current_imsi[:x] + suffix + "'\n"
+         lines[1] = new_imsi 
 
          #write into the file
          path = "./ues/" + file_name
@@ -37,8 +39,8 @@ def create_yaml_files(total_number_of_ues_per_slice, slice_number): #creates all
             for line in lines:
                fp.write(line)
 
-# create_yaml_files(NUMBER_OF_UES_PER_SLICE, 1) #creates the yaml files for the UEs of slice 1
-# create_yaml_files(NUMBER_OF_UES_PER_SLICE, 2) #creates the yaml files for the UEs of slice 2
+create_yaml_files(NUMBER_OF_UES_PER_SLICE, 1) #creates the yaml files for the UEs of slice 1
+create_yaml_files(NUMBER_OF_UES_PER_SLICE, 2) #creates the yaml files for the UEs of slice 2
 
                              ############################################
 
