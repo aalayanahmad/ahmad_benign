@@ -18,7 +18,7 @@ cpg = 0
 cdr = 0
 
 t = 0 
-tr = 1  
+tr = 2
 
 ue_list = []
 gnb_ueID_map = {}  # to store gnb id
