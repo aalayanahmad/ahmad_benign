@@ -16,5 +16,5 @@ pattern="$1"
 count=$(grep -c "$pattern" "$UEs")
 
 if [ "$count" -ge 1 ]; then
-  ./nr-cli "$1" -e 'ps-release 1'
+  ./nr-cli "$1" -e 'ps-release 1' & sleep 2
 fi

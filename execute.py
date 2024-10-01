@@ -48,7 +48,6 @@ while t <= 6000:
                 cr += 1
                 tr += 1
                 gnb_ueID_map[ue[0]] = str(tr)
-                tr += 1
                 p = Process(target=run_command, args=(['bash', '/ueransim/scripts/register.sh', ue[0]],))
             elif event == "2":
                 cu += 1

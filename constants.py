@@ -4,7 +4,7 @@ INTERVAL_TIME = 13.0
 
 MEAN_SERVICE_TIME = 12 # the average amount of time a UE can spend in the network during each time slot
 
-EVENTS_PER_SECOND = 0.2 #so 12 per minute, how many events can happen per second per ue
+EVENTS_PER_SECOND = 0.1 #so 6 per minute, how many events can happen per second per ue
 
 PROCESSING_TIME_PER_EVENT = { #event: time to process the event
     1 : 10, #REGISTER 
