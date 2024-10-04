@@ -1,38 +1,41 @@
-NUMBER_OF_UES_PER_SLICE = 50
+NUMBER_OF_UES_PER_SLICE = 8
 
-INTERVAL_TIME = 13.0 
+INTERVAL_TIME = 2.0 
 
-MEAN_SERVICE_TIME = 10 #the average amount of time a UE can spend in the network during each time slot
+#the average amount of time a UE can spend in the network during each time slot
+MEAN_SERVICE_TIME = 7 
 
-EVENTS_PER_SECOND = 0.1 #so 6 per minute, how many events can happen per second per ue
+#how many events can happen per second per ue
+EVENTS_PER_MINUTE = 5 
 
-PROCESSING_TIME_PER_EVENT = { #event: time to process the event
-    1 : 11, #REGISTER 
-    2 : 4, #UPLINK
-    3 : 4, #DOWNLINK
-    4 : 8, #PDU_UE_RELEASE
-    5 : 8, #PDU_GNB_RELEASE
-    6 : 5, #DEREGISTER
+#time it takes for each procedure to complete (with some buffer time)
+PROCESSING_TIME_PER_EVENT = {
+    "register"    : 10, 
+    "uplink"      : 5, 
+    "downlink"    : 5, 
+    "ue_release"  : 6, 
+    "gnb_release" : 2, 
+    "deregister"  : 4, 
     }
 
+#the legal events to move to from each event
 LEGAL_NEXT_EVENTS_PER_CURRENT_EVENT = { 
-    1 : [2, 3, 4, 5], #REGISTER
-    2 : [3, 4, 5], #UPLINK
-    3 : [2, 4, 5], #DOWNLINK
-    4 : [2, 3, 5], #PDU_UE_RELEASE
-    5 : [2, 3], #PDU_GNB_RELEASE
-    6 : [1]  #DEREGISTER
+    "register"    : ["uplink", "downlink", "ue_release", "gnb_release"], 
+    "uplink"      : ["uplink", "downlink", "ue_release", "gnb_release"],
+    "downlink"    : ["uplink", "downlink", "ue_release", "gnb_release"], 
+    "ue_release"  : ["uplink", "downlink", "ue_release", "gnb_release"], 
+    "gnb_release" : ["uplink"], 
+    "deregister"  : ["register"]  
 }
 
-#BENIGN PROBABILITIES
-#in a bengin scenario everything is equally probable!
-PRBABILITIES_OF_LEGAL_NEXT_EVENTS_PER_CURRENT_EVENT_BENIGN = { 
-    1 : [0.25, 0.25, 0.25, 0.25], #REGISTER
-    2 : [0.33, 0.34, 0.33], #UPLINK
-    3 : [0.33, 0.34, 0.33], #DOWNLINK
-    4 : [0.33, 0.34, 0.33], #PDU_UE_RELEASE
-    5 : [0.5, 0.5], #PDU_GNB_RELEASE
-    6 : [1] #DEREGISTER
+#a truthful ue will not bias an event over other, therefore everything is equally probable in the benign case
+BENIGN_PRBABILITIES_OF_LEGAL_NEXT_EVENTS = { 
+    "register"    : [0.25, 0.25, 0.25, 0.25], 
+    "uplink"      : [0.25, 0.25, 0.25, 0.25], 
+    "downlink"    : [0.25, 0.25, 0.25, 0.25], 
+    "ue_release"  : [0.25, 0.25, 0.25, 0.25], 
+    "gnb_release" : [1],
+    "deregister"  : [1]
 }
 
-LIST_OF_LAMBDAS = [1,3,5,7,5,3,1]
+LIST_OF_LAMBDAS = [1,2,3,4] 

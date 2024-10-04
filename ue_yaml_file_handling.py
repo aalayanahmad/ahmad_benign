@@ -1,4 +1,4 @@
-from constants import NUMBER_OF_UES_PER_SLICE
+#from constants import NUMBER_OF_UES_PER_SLICE
 
 def ue_yaml_file_names(slice_number, ue_number):
     if (ue_number < 10):
@@ -39,10 +39,10 @@ def create_yaml_files(total_number_of_ues_per_slice, slice_number): #creates all
             for line in lines:
                fp.write(line)
 
-create_yaml_files(NUMBER_OF_UES_PER_SLICE, 1) #creates the yaml files for the UEs of slice 1
-create_yaml_files(NUMBER_OF_UES_PER_SLICE, 2) #creates the yaml files for the UEs of slice 2
+#create_yaml_files(NUMBER_OF_UES_PER_SLICE, 1) #creates the yaml files for the UEs of slice 1
+#create_yaml_files(NUMBER_OF_UES_PER_SLICE, 2) #creates the yaml files for the UEs of slice 2
 
                              ############################################
 
-def takefourth(element):
-     return element[2] #return elem[3]
+def take_fourth(element):
+     return element[2]
