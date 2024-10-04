@@ -10,7 +10,7 @@ def ue_poisson_event_distribution(selected_ue, t_arrival, t_departure, list_of_e
     #appending the REGISTER event as the first one accoridng to UE poisson arrival time
     list_of_events_for_this_ue.append([int(selected_ue[2:5]), "register", t_arrival, lambda_value]) 
     #need to go from REGISTER to another event so set current state is always set to REGISTER first
-    current_state = 1  
+    current_state = "register" 
     #the poisson arrivals formula is: t_i = t_(i-1) + poisson, so set t(i-1) to arrival time t0 because t1 = t0 + poisson 
     t_previous = t_arrival #initially t_0 = time of arrival of this specific UE in seconds (according to service time)
     t_current = 0 #this is the time at which the next event is gonna start
@@ -36,23 +36,15 @@ def ue_poisson_event_distribution(selected_ue, t_arrival, t_departure, list_of_e
             if (t_current <= (t_departure - 10)):  
                 t_previous = t_current
                 #append this event
-                list_of_events_for_this_ue.append([extract_ue_number(selected_ue), next_event_to_trigger, t_previous, lambda_value])
+                list_of_events_for_this_ue.append([int(selected_ue[2:5]), next_event_to_trigger, t_previous, lambda_value])
                 #move to the next state
                 current_state = next_event_to_trigger
             else: #allow it to try a couple of times
                 attempts += 1
 
     #append the final deregister event
-    list_of_events_for_this_ue.append([extract_ue_number(selected_ue), "deregister", t_departure, lambda_value])
+    list_of_events_for_this_ue.append([int(selected_ue[2:5]), "deregister", t_departure, lambda_value])
 
     return list_of_events_for_this_ue
 
 
-
-def extract_ue_number(file_name):
-    match = re.search(r"ue(\d+)\.yaml", file_name)
-    if match:
-        return match.group(1)
-    else:
-        raise ValueError("invalid filename format")
-    

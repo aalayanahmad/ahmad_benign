@@ -4,6 +4,7 @@ from numpy import random
 import math
 from time_for_event_execution import *
 from ue_poisson_event_distribution import *
+import copy
 
 def list_of_benign_events_for_all_ues():
 
@@ -22,24 +23,26 @@ def list_of_benign_events_for_all_ues():
       if lambda_value > 1:
         active_ues_from_previous_slot = [ue for ue in selected_ues if ue_state[ue +"_depart"] >= slot_time] #check ues that will still be active when this slot starts
         selected_ues.clear() #to choose a new set of UEs for the next lambda 
-        selected_ues = active_ues_from_previous_slot.copy() #put them in selected to avoid repetition
+        selected_ues = copy.deepcopy(active_ues_from_previous_slot) #put them in selected to avoid repetition
         print("selected ues:" , selected_ues)
       #########################################################################################
-      while (counter < number_of_ues_for_this_lambda) :
-          if complete_ues_list: #compelte ues_list is not empty
+      number_of_available_ues = len(complete_ues_list) - len(selected_ues) #if i have 12 ues in total for this lambda and 12 ues in my enitre network, if two of them are in selected ues 
+      if(number_of_available_ues >= number_of_ues_for_this_lambda):
+          complete_ues_list = [ue for ue in complete_ues_list if ue not in selected_ues] #to make sure im never choosing an already selected ue
+      else:
+          complete_ues_list = [ue for ue in complete_ues_list if ue not in selected_ues]
+          number_of_ues_for_this_lambda = number_of_available_ues
+      #########################################################################################
+      while (counter < number_of_ues_for_this_lambda):
             selected_ue = random.choice(complete_ues_list)
-            if selected_ue not in selected_ues: #ensuring ues that won't be deregistered by the end
-              complete_ues_list.remove(selected_ue)
-              selected_ues.append(selected_ue)
-              ue_state[selected_ue + "_arrive"] = (-(1/lambda_value) * math.log(random.random())) + slot_time #poisson arrival of ues
-              ue_state[selected_ue + "_depart"] = ue_state[selected_ue + "_arrive"] + (service_time())   #serive time acc to formula t_departure = t_arrival + service time   
-            
-              ue_poisson_event_distribution(selected_ue, ue_state[selected_ue + "_arrive"]*60, ue_state[selected_ue + "_depart"]*60, list_to_execute, lambda_value, counter)
-              counter += 1 #counting number of selected UEs
-            else:
-              continue
-          else:
-             counter += 1 #others ues from prev slice are already active
+            complete_ues_list.remove(selected_ue)
+            selected_ues.append(selected_ue)
+            ue_state[selected_ue + "_arrive"] = (-(1/lambda_value) * math.log(random.random())) + slot_time #poisson arrival of ues
+            ue_state[selected_ue + "_depart"] = ue_state[selected_ue + "_arrive"] + (service_time())   #serive time acc to formula t_departure = t_arrival + service time   
+            print(selected_ue, "will be active form: ", ue_state[selected_ue + "_arrive"]*60, " until ", ue_state[selected_ue + "_depart"]*60)
+            ue_poisson_event_distribution(selected_ue, ue_state[selected_ue + "_arrive"]*60, ue_state[selected_ue + "_depart"]*60, list_to_execute, lambda_value)
+            counter += 1 #counting number of selected UEs
+      #########################################################################################      
       slot_time += INTERVAL_TIME #move to the next slot time (i.e next lambda) 
 
     list_to_execute.sort(key = take_fourth)

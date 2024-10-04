@@ -1,6 +1,6 @@
-NUMBER_OF_UES_PER_SLICE = 8
+NUMBER_OF_UES_PER_SLICE = 5
 
-INTERVAL_TIME = 2.0 
+INTERVAL_TIME = 3.0 
 
 #the average amount of time a UE can spend in the network during each time slot
 MEAN_SERVICE_TIME = 7 
