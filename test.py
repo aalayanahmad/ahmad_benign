@@ -7,4 +7,5 @@ from time_for_event_execution import *
 from ue_yaml_file_handling import *
 from violating_ues import *
 
+np.random.seed(None)
 print(list_of_benign_events_for_all_ues())
