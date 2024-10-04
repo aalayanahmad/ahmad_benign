@@ -47,7 +47,7 @@ def list_of_benign_events_for_all_ues():
 
     list_to_execute.sort(key = take_fourth)
 
-    with open('./files to execute/list_of_benign_events_for_all_ues', 'w') as file:
+    with open('./files to execute/list_of_benign_events', 'w') as file:
         for line in list_to_execute:
           file.write(','.join(str(item) for item in line))
           file.write("\n" )
