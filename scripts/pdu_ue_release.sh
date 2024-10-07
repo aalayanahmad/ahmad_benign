@@ -2,11 +2,11 @@
 
 handle_error() {
   local error_code=$?
-  echo "Error occurred with exit code: $error_code"
+  echo "Error UE $1 while ue_release with exit code: $error_code"
   exit $error_code
 }
 
-trap 'handle_error' ERR
+trap 'handle_error "$1"' ERR
 
 UEs="pdu_ue_release.txt"
 ./nr-cli -d > "$UEs"
@@ -16,5 +16,4 @@ echo "UE $1 wants to perform pdu_ue_release and count is $count"
 
 if [ "$count" -ge 1 ]; then
   ./nr-cli "$1" -e 'ps-release 1'
-  sleep 1
 fi

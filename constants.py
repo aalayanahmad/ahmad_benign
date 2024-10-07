@@ -1,4 +1,4 @@
-NUMBER_OF_UES_PER_SLICE = 5
+NUMBER_OF_UES_PER_SLICE = 10
 
 INTERVAL_TIME = 3.0 
 
@@ -6,14 +6,14 @@ INTERVAL_TIME = 3.0
 MEAN_SERVICE_TIME = 7 
 
 #how many events can happen per second per ue
-EVENTS_PER_MINUTE = 5 
+EVENTS_PER_MINUTE = 6
 
 #time it takes for each procedure to complete (with some buffer time)
 PROCESSING_TIME_PER_EVENT = {
     "register"    : 10, 
     "uplink"      : 5, 
     "downlink"    : 5, 
-    "ue_release"  : 6, 
+    "ue_release"  : 7, #was 6 for the 5 ues i made it 7
     "gnb_release" : 2, 
     "deregister"  : 4, 
     }

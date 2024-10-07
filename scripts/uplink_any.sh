@@ -2,11 +2,11 @@
 
 handle_error() {
   local error_code=$?
-  echo "Error occurred with exit code: $error_code"
+  echo "Error UE $1 for uplink any with exit code: $error_code"
   exit $error_code
 }
 
-trap 'handle_error' ERR
+trap 'handle_error "$1"' ERR
 
 UEs="ues_uplink_any.txt"
 ./nr-cli -d > "$UEs"
@@ -25,8 +25,8 @@ if [ "$count" -ge 1 ]; then
   echo "Starting uplink_any by $ip"
 
   if [ -n "$ip" ]; then
-    ping -c 2 -I $ip 8.8.8.8
-    sleep 1
+    ping -c 3 -I $ip 8.8.8.8
+    sleep 2
   fi
 fi
 #rm "$filetxt"

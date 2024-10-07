@@ -2,11 +2,11 @@
 
 handle_error() {
   local error_code=$?
-  echo "Error occurred with exit code: $error_code"
+  echo "Error UE $1 while downlink with exit code: $error_code"
   exit $error_code
 }
 
-trap 'handle_error' ERR
+trap 'handle_error "$1"' ERR
 
 ue="ues_downlink.txt"
 ./nr-cli -d > "$ue"
@@ -33,7 +33,7 @@ if [ "$count" -ge 1 ]; then
         elif [ "$subn" = "1" ]; then
             echo "Downlink from $1 to slice 2"
             ip=$(echo $ip | xargs)
-            ping -c 2 -I "$ip" 10.61.0.1
+            ping -c 3 -I "$ip" 10.61.0.1
             sleep 1
         fi
     fi
