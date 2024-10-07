@@ -1,21 +1,21 @@
-NUMBER_OF_UES_PER_SLICE = 15
+NUMBER_OF_UES_PER_SLICE = 40
 
-INTERVAL_TIME = 3.0 
+INTERVAL_TIME = 5.0 
 
 #the average amount of time a UE can spend in the network during each time slot
-MEAN_SERVICE_TIME = 7 
+MEAN_SERVICE_TIME = 22
 
 #how many events can happen per second per ue
-EVENTS_PER_MINUTE = 7
+EVENTS_PER_MINUTE = 8
 
 #time it takes for each procedure to complete (with some buffer time)
 PROCESSING_TIME_PER_EVENT = {
-    "register"    : 10, 
+    "register"    : 7, 
     "uplink"      : 5, 
     "downlink"    : 5, 
-    "ue_release"  : 7, #was 6 for the 5 ues i made it 7
+    "ue_release"  : 8, 
     "gnb_release" : 2, 
-    "deregister"  : 4, 
+    "deregister"  : 3, 
     }
 
 #the legal events to move to from each event
@@ -38,4 +38,4 @@ BENIGN_PRBABILITIES_OF_LEGAL_NEXT_EVENTS = {
     "deregister"  : [1]
 }
 
-LIST_OF_LAMBDAS = [1,2,3,4,5,6,7,8,9,10] 
+LIST_OF_LAMBDAS = [1,3,5,8,6,2,1] 
