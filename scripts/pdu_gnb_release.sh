@@ -1,13 +1,15 @@
 #!/bin/bash
 
+# Function to handle errors
 handle_error() {
-  local error_code=$?
-  echo "Error for UE $1 during gnb_release with exit code: $error_code"
+  local error_code=$?  
+  local error_line=$1  
+  echo "Error in UE $2 for gnb_release on line $error_line with exit code: $error_code"
   exit $error_code
 }
 
-trap 'handle_error "1"' ERR
-
+# Trap errors and call handle_error with the line number
+trap 'handle_error ${LINENO} "$1"' ERR
 UEs="pdu_gnb_release.txt"
 ./nr-cli -d > "$UEs"
 pattern="$1"

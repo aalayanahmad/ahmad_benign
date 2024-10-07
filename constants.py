@@ -1,4 +1,4 @@
-NUMBER_OF_UES_PER_SLICE = 10
+NUMBER_OF_UES_PER_SLICE = 15
 
 INTERVAL_TIME = 3.0 
 
@@ -6,7 +6,7 @@ INTERVAL_TIME = 3.0
 MEAN_SERVICE_TIME = 7 
 
 #how many events can happen per second per ue
-EVENTS_PER_MINUTE = 6
+EVENTS_PER_MINUTE = 7
 
 #time it takes for each procedure to complete (with some buffer time)
 PROCESSING_TIME_PER_EVENT = {
@@ -38,4 +38,4 @@ BENIGN_PRBABILITIES_OF_LEGAL_NEXT_EVENTS = {
     "deregister"  : [1]
 }
 
-LIST_OF_LAMBDAS = [1,2,3,4] 
+LIST_OF_LAMBDAS = [1,2,3,4,5,6,7,8,9,10] 
