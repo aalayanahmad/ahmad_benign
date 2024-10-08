@@ -1,4 +1,4 @@
-from constants import PROCESSING_TIME_PER_EVENT, MEAN_SERVICE_TIME, INTERVAL_TIME
+from ahmad_benign.constants_RN import PROCESSING_TIME_PER_EVENT, MEAN_SERVICE_TIME, INTERVAL_TIME
 import math
 from numpy import random
 

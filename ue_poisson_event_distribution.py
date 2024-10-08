@@ -1,5 +1,5 @@
 from random_event_selection import random_next_event_selection
-from constants import EVENTS_PER_MINUTE
+from ahmad_benign.constants_RN import EVENTS_PER_MINUTE
 from time_for_event_execution import time_execution_current_event
 import math
 import random
