@@ -1,5 +1,5 @@
 from ue_yaml_file_handling import *
-from ahmad_benign.constants_RN import *
+from constants import *
 from numpy import random
 import math
 from time_for_event_execution import *

@@ -1,5 +1,5 @@
 from execute import *
-from ahmad_benign.constants_RN import *
+from constants import *
 from list_of_benign_events_for_all_ues import *
 from ue_poisson_event_distribution import *
 from random_event_selection import *
