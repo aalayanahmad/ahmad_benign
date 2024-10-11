@@ -1,30 +1,33 @@
 #!/bin/bash
 
+# Function to handle errors
 handle_error() {
-  local error_code=$?
-  local line_number=$1
-  local command=$2
-  echo "Error occurred in uplink_service2_NORMAL for $1 when executing $command at line $line_number with exit code: $error_code"
+  local error_code=$?  
+  local error_line=$1  
+  echo "Error in UE $2 for uplink_video on line $error_line with exit code: $error_code"
   exit $error_code
 }
 
-trap 'handle_error ${LINENO} "$BASH_COMMAND"' ERR
-UEs="ues_to_use_service2.txt"
-sudo build/nr-cli -d > "$UEs"
+# Trap errors and call handle_error with the line number
+trap 'handle_error ${LINENO} "$1"' ERR
+
+
+UEs="ues_to_use_video.txt"
+./nr-cli -d > "$UEs"
 pattern="$1"
 count=$(grep -c "$pattern" "$UEs")
 
 if [ "$count" -ge 1 ]; then
-  filetxt="$1.txt"
-  sudo build/nr-cli $1 --exec 'ps-list' > "$filetxt"
+  filetxt="$1v.txt"
+  ./nr-cli $1 --exec 'ps-list' > "$filetxt"
   str=$(grep "address: " "$filetxt")
   find="address: "
   replace=""
   ip=${str//$find/$replace}
   ip=$(echo $ip | xargs)
-  echo "service2_uplink by $1"
+  echo "uplink_video by $1"
   if [ -n "$ip" ]; then
-    python3 client2.py $ip 2
+    python3 VideoClient.py $ip
   fi
 fi
 #rm "$filetxt"
