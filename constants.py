@@ -10,15 +10,15 @@ EVENTS_PER_MINUTE = 8
 
 #time it takes for each procedure to complete (with some buffer time)
 PROCESSING_TIME_PER_EVENT = {
-    "register"                   : 8, 
+    "register"                   : 21, 
     "uplink_google"              : 7, 
-    "uplink_banking"             : 7,
-    "uplink_text"                : 7,
-    "uplink_video"               : 7, 
+    "uplink_banking"             : 4,
+    "uplink_text"                : 4,
+    "uplink_video"               : 4, 
     "downlink"                   : 7, 
-    "ue_release"                 : 10, 
-    "gnb_release"                : 2, 
-    "deregister"                 : 3, 
+    "ue_release"                 : 18, 
+    "gnb_release"                : 7, 
+    "deregister"                 : 10, 
     }
 
 

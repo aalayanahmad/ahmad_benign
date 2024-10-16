@@ -46,7 +46,7 @@ def list_of_benign_events_for_all_ues():
       slot_time += INTERVAL_TIME #move to the next slot time (i.e next lambda) 
 
     list_to_execute.sort(key = take_fourth)
-    with open(f"./files_to_execute/benign_list_{NUMBER_OF_UES_PER_SLICE}ues_{INTERVAL_TIME}s_{EVENTS_PER_MINUTE}events_me", 'w') as file:
+    with open(f"./files_to_execute/benign_list_{NUMBER_OF_UES_PER_SLICE}ues_{INTERVAL_TIME}s_{EVENTS_PER_MINUTE}events_WED", 'w') as file:
         for line in list_to_execute:
           file.write(','.join(str(item) for item in line))
           file.write("\n" )
