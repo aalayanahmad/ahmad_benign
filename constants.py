@@ -3,10 +3,10 @@ NUMBER_OF_UES_PER_SLICE = 56
 INTERVAL_TIME = 7.0 
 
 #the average amount of time a UE can spend in the network during each time slot
-MEAN_SERVICE_TIME = 50
+MEAN_SERVICE_TIME = 45
 
 #how many events can happen per second per ue
-EVENTS_PER_MINUTE = 9
+EVENTS_PER_MINUTE = 10
 
 #time it takes for each procedure to complete (with some buffer time)
 PROCESSING_TIME_PER_EVENT = {
@@ -110,13 +110,14 @@ LEGAL_NEXT_EVENTS_PER_CURRENT_EVENT_UNSTABLE_SLICE2 = {
 }
 
 BENIGN_PRBABILITIES_OF_LEGAL_NEXT_EVENTS_UNSTABLE_SLICE2 = { 
-    "register"         : [0.16, 0.16, 0.16, 0.16, 0.16, 0.2], 
-    "uplink_google"    : [0.16, 0.16, 0.16, 0.16, 0.16, 0.2], 
-    "uplink_video"     : [0.16, 0.16, 0.16, 0.16, 0.16, 0.2],  
-    "downlink"         : [0.16, 0.16, 0.16, 0.16, 0.16, 0.2], 
-    "ue_release"       : [0.16, 0.16, 0.16, 0.16, 0.16, 0.2], 
-    "gnb_release"      : [0.33, 0.33, 0.34],
-    "deregister"       : [1]
+    "register"              : [0.16, 0.16, 0.16, 0.16, 0.16, 0.2], 
+    "uplink_google"         : [0.16, 0.16, 0.16, 0.16, 0.16, 0.2], 
+    "uplink_video"          : [0.16, 0.16, 0.16, 0.16, 0.16, 0.2],
+    "uplink_video_unstable" : [0.16, 0.16, 0.16, 0.16, 0.16, 0.2], 
+    "downlink"              : [0.16, 0.16, 0.16, 0.16, 0.16, 0.2], 
+    "ue_release"            : [0.16, 0.16, 0.16, 0.16, 0.16, 0.2], 
+    "gnb_release"           : [0.33, 0.33, 0.34],
+    "deregister"            : [1]
 }
 
 ##ATTACKISH##
