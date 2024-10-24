@@ -16,33 +16,25 @@
 # number_of_ue_releases = 0
 # number_of_gnb_releases = 0
 # number_of_deregistrations = 0
-# error_count = 0
 
 # time_variable = 0 
-# #gnb_id_counter = 2
+# gnb_id_counter = 2
 
 # ue_list = []
-# #gnb_ueID_map = {}  #to store gnb id
+# gnb_ueID_map = {}  #to store gnb id
 
 # # Reading events from the file
-# with open("/ueransim/benign_list_40ues_5.0s_8events", "r") as file:
+# with open("/ueransim/benign", "r") as file:
 #     lines = file.readlines()
 #     for line in lines:
 #         x = line.strip().split(",", 4)
 #         ue_list.append(x)
 
 # def run_command(command):
-#     try:
-#         subprocess.run(command, check=True)  # Raise an exception for non-zero exit codes
-#     except subprocess.CalledProcessError as e:
-#         #print(f"Error occurred while running command: {e.cmd}. Return code: {e.returncode}")
-#         error_count += 1  # Increment the error count
-#     except Exception as e:
-#         #print(f"Unexpected error while running command: {command}. Error: {e}")
-#         error_count += 1  
+#         subprocess.run(command)  # Raise an exception for non-zero exit codes
 
 
-# while time_variable <= 2150:
+# while time_variable <= 2160:
 #     t_plus2 = time_variable + 2
 #     print("interval in seconds = [", str(time_variable), ", ", str(t_plus2), "]")
 
@@ -61,8 +53,8 @@
 #         try:
 #             if event == "register":
 #                 number_of_registrations += 1
-#                 #gnb_id_counter += 1
-#                 #gnb_ueID_map[ue[0]] = str(tr)
+#                 gnb_id_counter += 1
+#                 gnb_ueID_map[ue[0]] = str(gnb_id_counter)
 #                 p = Process(target=run_command, args=(['bash', '/ueransim/scripts/register.sh', ue[0]], ))
 #             elif event == "uplink_google":
 #                 number_of_uplinks_google += 1
@@ -93,8 +85,8 @@
 #                 p = Process(target=run_command, args=(['bash', '/ueransim/scripts/pdu_ue_release.sh', imsi_value], ))
 #             elif event == "gnb_release":
 #                 number_of_gnb_releases += 1
-#                 #ue_id = gnb_ueID_map[ue[0]]
-#                 p = Process(target=run_command, args=(['bash', '/ueransim/scripts/pdu_gnb_release.sh', imsi_value, ue[0]], ))
+#                 ue_id = gnb_ueID_map[ue[0]]
+#                 p = Process(target=run_command, args=(['bash', '/ueransim/scripts/pdu_gnb_release.sh', imsi_value, ue[0], ue_id], ))
 #             else:
 #                 number_of_deregistrations += 1
 #                 p = Process(target=run_command, args=(['bash', '/ueransim/scripts/deregister.sh', imsi_value], ))

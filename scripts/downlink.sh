@@ -36,7 +36,7 @@ if [ "$count" -ge 1 ]; then
         elif [ "$subn" = "1" ]; then
             echo "Downlink from $1 to slice 2"
             ip=$(echo $ip | xargs)
-            ping -c 3 -I "$ip" 10.61.0.1
+            ping -c 1 -I "$ip" 10.61.0.1
             sleep 1
         fi
     fi

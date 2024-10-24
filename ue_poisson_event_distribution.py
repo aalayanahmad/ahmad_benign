@@ -23,7 +23,7 @@ def ue_poisson_event_distribution(selected_ue, t_arrival, t_departure, list_of_e
         else:
             #generate the time until next event of this UE using a poisson distribution
             inter_arrival_time = (-(1/EVENTS_PER_MINUTE) * math.log(random.random()))*60 #delta or poisson in: t_i = t_(i+1) + delta
-            next_event_to_trigger = random_next_event_selection(ue_slice_number, current_state)
+            next_event_to_trigger = random_next_event_selection(ue_slice_number, current_state, lambda_value)
             current_event_execution_time = time_execution_current_event(current_state)
 
             #determine if the calculated time will interfere with the time of the previous event (ensure current event finishes execution before moving to the next event)
